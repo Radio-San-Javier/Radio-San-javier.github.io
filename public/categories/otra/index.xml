@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Otra on Radio San Javier</title>
+    <link>http://localhost:1313/categories/otra/</link>
+    <description>Recent content in Otra on Radio San Javier</description>
+    <generator>Hugo -- gohugo.io</generator>
+    <language>en</language>
+    <managingEditor>youremail@example.com (Radio San Javier)</managingEditor>
+    <webMaster>youremail@example.com (Radio San Javier)</webMaster>
+    <copyright>© 2025 Radio San Javier</copyright>
+    <atom:link href="http://localhost:1313/categories/otra/index.xml" rel="self" type="application/rss+xml" />
+    
+    <item>
+      <title>Es lo que hay</title>
+      <link>http://localhost:1313/programas/es-lo-que-hay/</link>
+      <pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate>
+      <author>youremail@example.com (Radio San Javier)</author>
+      <guid>http://localhost:1313/programas/es-lo-que-hay/</guid>
+      <description></description>
+      
+    </item>
+    
+  </channel>
+</rss>
