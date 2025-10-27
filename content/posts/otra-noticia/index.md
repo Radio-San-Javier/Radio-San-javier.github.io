@@ -10,3 +10,9 @@ Acá el contenido
 modificado
 
 2
+
+```
+codigo
+```
+
+![](es-lo-que-hay.jpg)
