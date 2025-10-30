@@ -21,6 +21,12 @@
  weight = 20
 
 [[main]]
+  name = "Es lo que hay"
+  parent = "Programas"
+  pageRef = "es_lo_que_hay"
+  weight = 10
+
+[[main]]
   name = "Voces de la noche"
   parent = "Programas"
   pageRef = "programa-nocturno"
