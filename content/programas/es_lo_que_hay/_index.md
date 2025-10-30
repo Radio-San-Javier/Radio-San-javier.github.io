@@ -1,6 +1,7 @@
 ---
 title: "Es lo que hay"
 description: "Ahora de lunes a viernes!!!"
+date: "2023-01-01"
 showDate : true
 showDateUpdated : false
 showHeadingAnchors : false
@@ -16,7 +17,7 @@ featured: featured_programa_matinal.jpg
 featureimage: ""
 ---
 
-Prepárate unos ricos mates que ahora a las 10hs arranca EsLoQueHay el clásico de la mañana en la 89.3!!!
+Prepárate unos ricos mates que ahora a las 10hs arranca Es Lo Que Hay el clásico de la mañana en la 89.3!!!
 
 ## Notas
 
