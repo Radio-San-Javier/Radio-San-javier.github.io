@@ -13,34 +13,76 @@ collections:
     folder: "content/posts"
     create: true
     slug: "{{slug}}"
-    path: "{{slug}}/index"
+    path: "{{slug}}/index" # Para asegurar que se creen _index.md
     media_folder: ""
     public_folder: ""
     fields:
       - {label: "Título", name: "title", widget: "string"}
       - {label: "Fecha", name: "date", widget: "datetime"}
       - {label: "Descripción", name: "description", widget: "text"}
-      - {label: "Subir Imagen", name: "featured", widget: "image", required: false, hint: "Sube una imagen para el post"}
-      - {label: "O URL de Imagen Externa", name: "featureimage", widget: "string", required: false, hint: "URL completa de una imagen externa (si no subiste archivo)"}
+      - {label: "Subir Imagen", name: "featured", widget: "image", required: false, hint: "Sube una imagen para el post (usado por el tema para 'featured')."}
+      - {label: "O URL de Imagen Externa", name: "featureimage", widget: "string", required: false, hint: "URL completa de una imagen externa (usado por el tema para 'featureimage')."}
       - {label: "Contenido", name: "body", widget: "markdown"}
       - {label: "Draft", name: "draft", widget: "boolean", default: false}
-      - {label: "Tags", name: "tags", widget: "tags_array", required: false, hint: "Separa los tags con comas: radio, tecnologia, test"}
+      - {label: "Tags", name: "tags", widget: "list", required: false, hint: "Añade tags relevantes para el post."}
 
   - name: "programas"
     label: "Programas de Radio"
-    folder: "content/programas"
+    folder: "content/programas" # Carpeta base para todos los programas
+    create: true
+    slug: "{{slug}}" # El slug de la carpeta del programa
+    # Decap CMS creará content/programas/nombre-programa/
+
+    # Esta sección 'files' define los campos para el _index.md de CADA programa.
+    # Cuando editas un programa, estos son los campos de su página principal.
+    files:
+      - label: "Información General del Programa"
+        name: "programa_info"
+        file: "{{slug}}/index.md" # Apunta al _index.md dentro de la carpeta del programa
+        fields:
+          - {label: "Nombre del Programa", name: "title", widget: "string"}
+          - {label: "Descripción Corta", name: "description", widget: "text"}
+          - {label: "Imagen del Programa (Featured)", name: "featured", widget: "image", required: false, hint: "Sube o URL de la imagen principal del programa (usado por el tema para 'featured')."}
+          - {label: "URL de Imagen Principal (FeatureImage)", name: "featureimage", widget: "string", required: false, hint: "URL completa de una imagen externa para el programa (usado por el tema para 'featureimage')."}
+          - {label: "URL de Reproducción (Stream)", name: "stream_url", widget: "string", required: false, hint: "URL del stream del programa (ej. para un futuro reproductor específico)."}
+          - {label: "Horario", name: "horario", widget: "string", required: false, hint: "Ej: Lunes a Viernes 08:00 - 10:00"}
+          - {label: "Días de Emisión", name: "dias", widget: "string", required: false, hint: "Ej: Lunes, Miércoles, Viernes"}
+          - {label: "Conductores", name: "conductores", widget: "string", required: false, hint: "Nombres de los conductores del programa."}
+          - {label: "Contenido de la Página del Programa", name: "body", widget: "markdown", required: false, hint: "Información adicional, biografía, etc., para la página principal del programa."}
+          - {label: "Draft", name: "draft", widget: "boolean", default: false}
+
+  - name: "El Despertador Matinal"
+    label: "El Despertador Matinal"
+    folder: "content/programas/programa-matinal"
     create: true
     slug: "{{slug}}"
-    path: "{{slug}}/index"
+    path: "{{slug}}/index" # Para asegurar que se creen _index.md
     media_folder: ""
     public_folder: ""
     fields:
-      - {label: "Nombre del Programa", name: "title", widget: "string"}
+      - {label: "Título", name: "title", widget: "string"}
+      - {label: "Fecha", name: "date", widget: "datetime"}
       - {label: "Descripción", name: "description", widget: "text"}
-      - {label: "Horario", name: "horario", widget: "string"}
-      - {label: "Días", name: "dias", widget: "string"}
-      - {label: "Conductores", name: "conductores", widget: "string"}
-      - {label: "Subir Imagen", name: "featured", widget: "image", required: false}
-      - {label: "O URL de Imagen Externa", name: "featureimage", widget: "string", required: false}
+      - {label: "Subir Imagen", name: "featured", widget: "image", required: false, hint: "Sube una imagen para el post (usado por el tema para 'featured')."}
+      - {label: "O URL de Imagen Externa", name: "featureimage", widget: "string", required: false, hint: "URL completa de una imagen externa (usado por el tema para 'featureimage')."}
       - {label: "Contenido", name: "body", widget: "markdown"}
       - {label: "Draft", name: "draft", widget: "boolean", default: false}
+      - {label: "Tags", name: "tags", widget: "list", required: false, hint: "Añade tags relevantes para el post."}
+
+  - name: "Voces de la Noche"
+    label: "Voces de la Noche"
+    folder: "content/programas/programa-nocturno"
+    create: true
+    slug: "{{slug}}"
+    path: "{{slug}}/index" # Para asegurar que se creen _index.md
+    media_folder: ""
+    public_folder: ""
+    fields:
+      - {label: "Título", name: "title", widget: "string"}
+      - {label: "Fecha", name: "date", widget: "datetime"}
+      - {label: "Descripción", name: "description", widget: "text"}
+      - {label: "Subir Imagen", name: "featured", widget: "image", required: false, hint: "Sube una imagen para el post (usado por el tema para 'featured')."}
+      - {label: "O URL de Imagen Externa", name: "featureimage", widget: "string", required: false, hint: "URL completa de una imagen externa (usado por el tema para 'featureimage')."}
+      - {label: "Contenido", name: "body", widget: "markdown"}
+      - {label: "Draft", name: "draft", widget: "boolean", default: false}
+      - {label: "Tags", name: "tags", widget: "list", required: false, hint: "Añade tags relevantes para el post."}
