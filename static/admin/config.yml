@@ -51,6 +51,24 @@ collections:
           - {label: "Contenido de la Página del Programa", name: "body", widget: "markdown", required: false, hint: "Información adicional, biografía, etc., para la página principal del programa."}
           - {label: "Draft", name: "draft", widget: "boolean", default: false}
 
+  - name: "Es lo que hay"
+    label: "Es lo que hay"
+    folder: "content/programas/es_lo_que_hay"
+    create: true
+    slug: "{{slug}}"
+    path: "{{slug}}/index" # Para asegurar que se creen _index.md
+    media_folder: ""
+    public_folder: ""
+    fields:
+      - {label: "Título", name: "title", widget: "string"}
+      - {label: "Fecha", name: "date", widget: "datetime"}
+      - {label: "Descripción", name: "description", widget: "text"}
+      - {label: "Subir Imagen", name: "featured", widget: "image", required: false, hint: "Sube una imagen para el post (usado por el tema para 'featured')."}
+      - {label: "O URL de Imagen Externa", name: "featureimage", widget: "string", required: false, hint: "URL completa de una imagen externa (usado por el tema para 'featureimage')."}
+      - {label: "Contenido", name: "body", widget: "markdown"}
+      - {label: "Draft", name: "draft", widget: "boolean", default: false}
+      - {label: "Tags", name: "tags", widget: "list", required: false, hint: "Añade tags relevantes para el post."}
+
   - name: "El Despertador Matinal"
     label: "El Despertador Matinal"
     folder: "content/programas/programa-matinal"
