@@ -20,17 +20,17 @@
  pageRef = "programas"
  weight = 20
 
-#[[main]]
-#  name = "example sub-menu 1"
-#  parent = "Parent"
-#  pageRef = "posts"
-#  weight = 20
+[[main]]
+  name = "Voces de la noche"
+  parent = "Programas"
+  pageRef = "programa-nocturno"
+  weight = 20
 
-#[[main]]
-#  name = "example sub-menu 2"
-#  parent = "Parent"
-#  pageRef = "posts"
-#  weight = 20
+[[main]]
+  name = "El despertador Matinal"
+  parent = "Programas"
+  pageRef = "programa-matinal"
+  weight = 20
 
 #[[subnavigation]]
 #  name = "An interesting topic"
