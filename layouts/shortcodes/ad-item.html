@@ -1,0 +1,25 @@
+{{ $link := .Get "link" }}
+{{ $image := .Get "image" }}
+{{ $size := .Get "size" | default "medium" }} <!-- Default a medium si no se especifica -->
+
+{{ $itemClasses := "" }}
+{{ if eq $size "large" }}
+    {{ $itemClasses = "ad-item-large" }}
+{{ else if eq $size "small" }}
+    {{ $itemClasses = "ad-item-small" }}
+{{ else }}
+    {{ $itemClasses = "ad-item-medium" }}
+{{ end }}
+
+<div class="ad-item {{ $itemClasses }}">
+    {{ if and $link $image }}
+        <a href="{{ $link | safeURL }}" target="_blank" rel="noopener noreferrer">
+            <img src="{{ $image | relURL }}" alt="Publicidad {{ $size }}">
+        </a>
+    {{ else }}
+        <!-- Mensaje de depuración o placeholder si faltan parámetros -->
+        <div style="background-color: #ffcccc; padding: 10px; border: 1px solid #cc0000; color: #cc0000;">
+            Error: Shortcode 'ad-item' requiere 'link' e 'image' (link="{{ $link }}", image="{{ $image }}")
+        </div>
+    {{ end }}
+</div>

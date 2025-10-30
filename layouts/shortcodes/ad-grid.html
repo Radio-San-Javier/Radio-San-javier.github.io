@@ -1,0 +1,45 @@
+<div class="ad-grid grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 my-8">
+    {{ .Inner }}
+</div>
+
+<style>
+/* Estilos generales para los ítems de la grilla */
+.ad-grid .ad-item {
+    display: flex;
+    justify-content: center; /* Centrar la imagen horizontalmente */
+    align-items: center;   /* Centrar la imagen verticalmente */
+    height: 100%;          /* Asegura que el contenedor del ítem ocupe su celda */
+    overflow: hidden;      /* Previene desbordamientos si la imagen es demasiado grande */
+}
+
+/* Estilos específicos para los tamaños de imagen */
+.ad-grid .ad-item img {
+    max-width: 100%;       /* La imagen no excederá el ancho de su contenedor */
+    height: auto;          /* Mantiene la proporción */
+    display: block;
+    border-radius: 0.5rem;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    transition: transform 0.2s ease-in-out;
+}
+
+.ad-grid .ad-item img:hover {
+    transform: scale(1.02);
+}
+
+.ad-grid .ad-item-small img {
+    max-width: 60%; /* Más pequeña, por ejemplo */
+}
+
+.ad-grid .ad-item-medium img {
+    max-width: 85%; /* Tamaño mediano */
+}
+
+.ad-grid .ad-item-large img {
+    max-width: 100%; /* Ocupa el 100% de la celda */
+}
+
+/* Estilos adicionales para el contenedor de la grilla si es necesario */
+.ad-grid {
+    /* Por ejemplo, podrías ajustar el padding o margin aquí si fuera necesario */
+}
+</style>
