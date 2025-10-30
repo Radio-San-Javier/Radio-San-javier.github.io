@@ -5,6 +5,11 @@ description: descripcion 2
 featured: featured.jpg
 featureimage: ""
 draft: false
+tags:
+  - Novedades
+  - San Javier
+categories:
+  - Comidas
 ---
 Acá el contenido
 modificado
