@@ -1,0 +1,30 @@
+# Ignorar el directorio de salida de Hugo
+public/
+
+# Ignorar archivos y directorios de caché y temporales de Hugo
+.hugo_build.lock
+resources/_gen/
+.cache/
+
+# Ignorar directorios y archivos de Zed Editor
+.zed/
+zed/
+
+# Ignorar archivos de respaldo y temporales de Emacs
+*~
+#*#
+.#*
+*.elc
+.projectile
+
+# Ignorar archivos y directorios de macOS
+.DS_Store
+
+# Ignorar archivos y directorios de Windows
+Thumbs.db
+ehthumbs.db
+desktop.ini
+
+# Otros archivos y directorios comunes que se suelen ignorar
+node_modules/
+vendor/
