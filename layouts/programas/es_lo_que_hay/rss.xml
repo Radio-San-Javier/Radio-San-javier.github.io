@@ -1,0 +1,111 @@
+<rss version="2.0"
+  xmlns:atom="http://www.w3.org/2005/Atom"
+  xmlns:itunes="http://www.itunes.com/dtds/podcast-1.0.dtd">
+<channel>
+  <title>{{ .Title }}</title>
+  <link>{{ .Permalink }}</link>
+  <description>{{ or .Site.Params.podcast.description .Site.Params.description .Description | htmlEscape }}</description>
+  <language>{{ .Site.LanguageCode }}</language>
+
+  <!-- <description>{{ .Description | htmlEscape }}</description> -->
+  <!-- <language>{{ .Site.LanguageCode }}</language> -->
+  <atom:link href="{{ .Permalink }}" rel="self" type="application/rss+xml"/>
+
+  <!-- iTunes podcast metadata -->
+  <!-- <itunes:author>Es lo que hay</itunes:author> -->
+  <!-- <itunes:summary>{{ .Description | htmlEscape }}</itunes:summary> -->
+  <!-- <itunes:explicit>no</itunes:explicit> -->
+   <itunes:author>{{ or .Site.Params.podcast.author "Es lo que hay" }}</itunes:author>
+  <itunes:summary>{{ or .Site.Params.podcast.description .Site.Params.description .Summary | htmlEscape }}</itunes:summary>
+  <itunes:explicit>{{ or .Site.Params.podcast.explicit "no" }}</itunes:explicit>
+
+  <!-- <itunes:image href="{{ .Site.BaseURL }}img/radio_logo_cropped_hu_a69e9d6bd2420809.jpg"/> -->
+  <!-- <itunes:category text="Society"/> -->
+  <itunes:image href="{{ (or .Site.Params.podcast.image "img/radio_logo_cropped_hu_a69e9d6bd2420809.jpg") | absURL }}"/>
+  <itunes:category text="{{ or .Site.Params.podcast.category "Society" }}"/>
+
+  <itunes:owner>
+    <itunes:name>Es lo que hay</itunes:name>
+    <itunes:email>radiosanjavier@gmail.com</itunes:email>
+  </itunes:owner>
+
+  {{ range .Pages }}
+  <item>
+    <title>{{ .Title | htmlEscape }}</title>
+    <link>{{ .Permalink }}</link>
+    <guid>{{ .Permalink }}</guid>
+    <pubDate>{{ .Date.Format "Mon, 02 Jan 2006 15:04:05 MST" }}</pubDate>
+
+    <description>
+      {{ with .Params.rss_description }}
+        {{ . | htmlEscape }}
+      {{ else }}
+        {{ .Summary | plainify | htmlEscape }}
+      {{ end }}
+    </description>
+
+    <itunes:author>Es lo que hay</itunes:author>
+    <itunes:explicit>no</itunes:explicit>
+    <!--images-->
+    {{/* Imagen por episodio: respeta leaf bundles y URLs absolutas */}}
+{{- $img := "" -}}
+
+{{- with .Params.featureimage -}}
+  {{- $cand := . -}}
+  {{- if or (hasPrefix $cand "http://") (hasPrefix $cand "https://") -}}
+    {{- $img = $cand -}}
+  {{- else -}}
+    {{- with $.Resources.GetMatch $cand -}}
+      {{- $img = .Permalink -}}
+    {{- end -}}
+  {{- end -}}
+{{- end -}}
+
+{{- if not $img -}}
+  {{- with .Resources.GetMatch "featured.*" -}}
+    {{- $img = .Permalink -}}
+  {{- end -}}
+{{- end -}}
+
+{{- if not $img -}}
+  {{- with .Params.image -}}
+    {{- $cand := . -}}
+    {{- if or (hasPrefix $cand "http://") (hasPrefix $cand "https://") -}}
+      {{- $img = $cand -}}
+    {{- else -}}
+      {{- with $.Resources.GetMatch $cand -}}
+        {{- $img = .Permalink -}}
+      {{- end -}}
+    {{- end -}}
+  {{- end -}}
+{{- end -}}
+
+{{- if $img -}}<itunes:image href="{{ $img }}"/>{{- end -}}
+
+    {{ with .Params.description }}
+      <itunes:subtitle>{{ . | htmlEscape }}</itunes:subtitle>
+    {{ end }}
+
+    {{ with .Params.rss_description }}
+      <itunes:summary>{{ . | htmlEscape }}</itunes:summary>
+    {{ else }}
+      <itunes:summary>{{ .Summary | plainify | htmlEscape }}</itunes:summary>
+    {{ end }}
+
+    {{ with .Params.duration }}
+      <itunes:duration>{{ . }}</itunes:duration>
+    {{ end }}
+
+    {{ with .Params.audio }}
+      {{ range . }}
+        {{ $ext := lower (delimit (last 1 (split . ".")) "") }}
+        {{ $type := cond (eq $ext "mp3") "audio/mpeg" (
+                  cond (eq $ext "m4a") "audio/x-m4a" (
+                  cond (eq $ext "mp4") "video/mp4" "audio/mpeg")) }}
+        <enclosure url="{{ . }}" type="{{ $type }}" />
+      {{ end }}
+    {{ end }}
+  </item>
+  {{ end }}
+</channel>
+</rss>
