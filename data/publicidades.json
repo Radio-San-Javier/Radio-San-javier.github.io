@@ -1,0 +1,25 @@
+{
+  "anunciantes": [
+    {
+      "nombre": "Almacén Don Pepe",
+      "imagen": "/publicidades/almacen-don-pepe.svg",
+      "link": "#",
+      "activo": true,
+      "ubicaciones": ["es_lo_que_hay"]
+    },
+    {
+      "nombre": "Ferretería El Tornillo",
+      "imagen": "/publicidades/ferreteria-el-tornillo.svg",
+      "link": "#",
+      "activo": true,
+      "ubicaciones": ["es_lo_que_hay"]
+    },
+    {
+      "nombre": "Farmacia Central",
+      "imagen": "/publicidades/farmacia-central.svg",
+      "link": "#",
+      "activo": true,
+      "ubicaciones": ["es_lo_que_hay"]
+    }
+  ]
+}

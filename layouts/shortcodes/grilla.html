@@ -1,7 +1,6 @@
 <style>
-.grilla-container {
-  margin: 1.5rem 0;
-}
+.grilla-container { margin: 1.5rem 0; }
+
 .grilla-titulo {
   font-size: 1.25rem;
   font-weight: 700;
@@ -32,6 +31,7 @@
   opacity: 0.5;
 }
 
+/* ── Desktop: tabla completa ── */
 .grilla-scroll {
   overflow-x: auto;
   border-radius: 6px;
@@ -67,26 +67,79 @@
   font-size: 0.75rem;
   min-width: 48px;
 }
-.grilla-empty {
-  background: #fafafa;
+.grilla-empty { background: #fafafa; }
+.grilla-cell { transition: filter 0.15s; }
+.grilla-cell:hover { filter: brightness(0.93); }
+.grilla-cell a { color: inherit; text-decoration: none; font-weight: 600; display: block; }
+.grilla-cell a:hover { text-decoration: underline; }
+
+/* ── Mobile: tabs + lista ── */
+.grilla-mobile { display: none; }
+
+.grilla-tabs {
+  display: flex;
+  gap: 0.25rem;
+  margin-bottom: 0.75rem;
+  overflow-x: auto;
+  padding-bottom: 0.25rem;
+  scrollbar-width: none;
 }
-.grilla-cell {
-  transition: filter 0.15s;
-}
-.grilla-cell:hover {
-  filter: brightness(0.93);
-}
-.grilla-cell a {
-  color: inherit;
-  text-decoration: none;
+.grilla-tabs::-webkit-scrollbar { display: none; }
+
+.grilla-tab {
+  flex: 1;
+  min-width: 2.75rem;
+  padding: 0.45rem 0.25rem;
+  border: none;
+  border-radius: 6px;
+  background: #e5e7eb;
+  color: #374151;
+  font-size: 0.78rem;
   font-weight: 600;
-  display: block;
+  cursor: pointer;
+  white-space: nowrap;
+  transition: background 0.15s, color 0.15s;
 }
-.grilla-cell a:hover {
-  text-decoration: underline;
+.grilla-tab-active {
+  background: #1f2937;
+  color: #f9fafb;
+}
+.grilla-tab-today {
+  outline: 2px solid #6b7280;
+  outline-offset: -2px;
 }
 
-/* Tipos */
+.grilla-slot {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  padding: 0.6rem 0.75rem;
+  border-radius: 6px;
+  margin-bottom: 0.35rem;
+  border: 1px solid rgba(0,0,0,0.07);
+}
+.grilla-slot-hora {
+  font-size: 0.7rem;
+  font-weight: 700;
+  white-space: nowrap;
+  min-width: 78px;
+  opacity: 0.75;
+}
+.grilla-slot-nombre {
+  font-size: 0.85rem;
+  font-weight: 500;
+  line-height: 1.3;
+}
+.grilla-slot-nombre a { color: inherit; text-decoration: none; font-weight: 700; }
+.grilla-slot-nombre a:hover { text-decoration: underline; }
+.grilla-slot-vacio {
+  color: #9ca3af;
+  font-style: italic;
+  padding: 1rem 0;
+  text-align: center;
+}
+
+/* ── Tipos (compartido desktop + mobile) ── */
 .grilla-radio-sanjavier { background-color: #c6efce; color: #1a4a1e; }
 .grilla-retransmitido   { background-color: #ffc7ce; color: #7a1a20; }
 .grilla-musical         { background-color: #ffeb9c; color: #5a4500; }
@@ -95,18 +148,28 @@
 .grilla-badge.grilla-retransmitido   { background-color: #ffc7ce; color: #7a1a20; }
 .grilla-badge.grilla-musical         { background-color: #ffeb9c; color: #5a4500; }
 
-/* Dark mode */
+/* ── Responsive ── */
+@media (max-width: 767px) {
+  .grilla-scroll  { display: none; }
+  .grilla-mobile  { display: block; }
+}
+
+/* ── Dark mode ── */
 html.dark .grilla-table th,
-html.dark .grilla-table td        { border-color: #374151; }
-html.dark .grilla-table thead th  { background: #111827; color: #f9fafb; }
-html.dark .grilla-hora            { background: #1f2937; color: #d1d5db; }
-html.dark .grilla-empty           { background: #111827; }
+html.dark .grilla-table td       { border-color: #374151; }
+html.dark .grilla-table thead th { background: #111827; color: #f9fafb; }
+html.dark .grilla-hora           { background: #1f2937; color: #d1d5db; }
+html.dark .grilla-empty          { background: #111827; }
 html.dark .grilla-radio-sanjavier { background-color: #14532d; color: #bbf7d0; }
-html.dark .grilla-retransmitido   { background-color: #7f1d1d; color: #fecaca; }
-html.dark .grilla-musical         { background-color: #713f12; color: #fef08a; }
+html.dark .grilla-retransmitido  { background-color: #7f1d1d; color: #fecaca; }
+html.dark .grilla-musical        { background-color: #713f12; color: #fef08a; }
 html.dark .grilla-badge.grilla-radio-sanjavier { background-color: #14532d; color: #bbf7d0; }
 html.dark .grilla-badge.grilla-retransmitido   { background-color: #7f1d1d; color: #fecaca; }
 html.dark .grilla-badge.grilla-musical         { background-color: #713f12; color: #fef08a; }
+html.dark .grilla-tab            { background: #374151; color: #d1d5db; }
+html.dark .grilla-tab-active     { background: #f9fafb; color: #111827; }
+html.dark .grilla-tab-today      { outline-color: #9ca3af; }
+html.dark .grilla-slot           { border-color: rgba(255,255,255,0.07); }
 </style>
 
 <div class="grilla-container">
@@ -116,8 +179,16 @@ html.dark .grilla-badge.grilla-musical         { background-color: #713f12; colo
     <span class="grilla-badge grilla-{{ .tipo | replaceRE "_" "-" }}">{{ .label }}</span>
     {{ end }}
   </div>
+
+  {{/* Desktop */}}
   <div class="grilla-scroll">
     <div id="grilla-tabla"></div>
+  </div>
+
+  {{/* Mobile */}}
+  <div class="grilla-mobile" id="grilla-mobile">
+    <div class="grilla-tabs" id="grilla-tabs"></div>
+    <div id="grilla-dia-view"></div>
   </div>
 </div>
 
@@ -129,7 +200,11 @@ html.dark .grilla-badge.grilla-musical         { background-color: #713f12; colo
   const H = horas.length;
   const D = dias.length;
 
-  // grid[h][d] = { skip: true } | { skip: false, cell: null } | { skip: false, cell: {...} }
+  // ── Detectar día de hoy (0=Lunes … 6=Domingo) ──
+  const jsDay = new Date().getDay(); // 0=Dom,1=Lun…6=Sáb
+  const todayIdx = jsDay === 0 ? 6 : jsDay - 1;
+
+  // ── Construir grilla para desktop ──
   const grid = Array.from({ length: H }, () =>
     Array.from({ length: D }, () => ({ skip: false, cell: null }))
   );
@@ -138,7 +213,6 @@ html.dark .grilla-badge.grilla-musical         { background-color: #713f12; colo
     const hIdx = horas.indexOf(prog.hora_inicio);
     if (hIdx === -1) continue;
 
-    // Group consecutive days into spans
     const sorted = [...prog.dias].sort((a, b) => a - b);
     const groups = [];
     let gs = sorted[0], ge = sorted[0];
@@ -149,12 +223,8 @@ html.dark .grilla-badge.grilla-musical         { background-color: #713f12; colo
     groups.push([gs, ge]);
 
     for (const [dStart, dEnd] of groups) {
-      const colspan = dEnd - dStart + 1;
-      const rowspan = prog.duracion;
-
-      grid[hIdx][dStart] = { skip: false, cell: { ...prog, colspan, rowspan } };
-
-      for (let h = hIdx; h < hIdx + rowspan && h < H; h++) {
+      grid[hIdx][dStart] = { skip: false, cell: { ...prog, colspan: dEnd - dStart + 1, rowspan: prog.duracion } };
+      for (let h = hIdx; h < hIdx + prog.duracion && h < H; h++) {
         for (let d = dStart; d <= dEnd; d++) {
           if (h === hIdx && d === dStart) continue;
           grid[h][d] = { skip: true };
@@ -163,38 +233,77 @@ html.dark .grilla-badge.grilla-musical         { background-color: #713f12; colo
     }
   }
 
-  // Render
   let html = '<table class="grilla-table"><thead><tr><th>Hora</th>';
   for (const dia of dias) html += `<th>${dia}</th>`;
   html += '</tr></thead><tbody>';
-
   for (let h = 0; h < H; h++) {
-    html += '<tr>';
-    html += `<td class="grilla-hora">${horas[h]}:00</td>`;
-
+    html += `<tr><td class="grilla-hora">${horas[h]}:00</td>`;
     for (let d = 0; d < D; d++) {
       const slot = grid[h][d];
       if (slot.skip) continue;
-
-      if (!slot.cell) {
-        html += '<td class="grilla-empty"></td>';
-        continue;
-      }
-
+      if (!slot.cell) { html += '<td class="grilla-empty"></td>'; continue; }
       const { nombre, tipo, link, colspan, rowspan } = slot.cell;
       const cls = 'grilla-' + tipo.replace(/_/g, '-');
       let attrs = `class="grilla-cell ${cls}"`;
       if (colspan > 1) attrs += ` colspan="${colspan}"`;
       if (rowspan > 1) attrs += ` rowspan="${rowspan}"`;
-
-      const content = link ? `<a href="${link}">${nombre}</a>` : nombre;
-      html += `<td ${attrs}>${content}</td>`;
+      html += `<td ${attrs}>${link ? `<a href="${link}">${nombre}</a>` : nombre}</td>`;
     }
-
     html += '</tr>';
   }
-
   html += '</tbody></table>';
   document.getElementById('grilla-tabla').innerHTML = html;
+
+  // ── Construir vista mobile ──
+  const shortDays = ['Lun', 'Mar', 'Mié', 'Jue', 'Vie', 'Sáb', 'Dom'];
+
+  let tabsHtml = '';
+  for (let i = 0; i < dias.length; i++) {
+    let cls = 'grilla-tab';
+    if (i === todayIdx) cls += ' grilla-tab-today';
+    tabsHtml += `<button class="${cls}" data-dia="${i}">${shortDays[i]}</button>`;
+  }
+  document.getElementById('grilla-tabs').innerHTML = tabsHtml;
+
+  function renderDia(diaIdx) {
+    const progs = data.programas
+      .filter(p => p.dias.includes(diaIdx))
+      .sort((a, b) => a.hora_inicio - b.hora_inicio);
+
+    if (!progs.length) {
+      document.getElementById('grilla-dia-view').innerHTML =
+        '<p class="grilla-slot-vacio">Sin programación</p>';
+      return;
+    }
+
+    let out = '';
+    for (const p of progs) {
+      const cls = 'grilla-' + p.tipo.replace(/_/g, '-');
+      const fin = p.hora_inicio + p.duracion;
+      const nombre = p.link ? `<a href="${p.link}">${p.nombre}</a>` : p.nombre;
+      out += `<div class="grilla-slot ${cls}">
+        <span class="grilla-slot-hora">${p.hora_inicio}:00 – ${fin}:00</span>
+        <span class="grilla-slot-nombre">${nombre}</span>
+      </div>`;
+    }
+    document.getElementById('grilla-dia-view').innerHTML = out;
+  }
+
+  // Mostrar hoy por defecto
+  renderDia(todayIdx);
+  const todayBtn = document.querySelector(`.grilla-tab[data-dia="${todayIdx}"]`);
+  if (todayBtn) {
+    todayBtn.classList.add('grilla-tab-active');
+    todayBtn.scrollIntoView({ inline: 'center', block: 'nearest' });
+  }
+
+  // Click en tabs
+  document.getElementById('grilla-tabs').addEventListener('click', e => {
+    const btn = e.target.closest('.grilla-tab');
+    if (!btn) return;
+    document.querySelectorAll('.grilla-tab').forEach(b => b.classList.remove('grilla-tab-active'));
+    btn.classList.add('grilla-tab-active');
+    renderDia(parseInt(btn.dataset.dia));
+  });
 })();
 </script>

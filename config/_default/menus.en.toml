@@ -26,17 +26,6 @@
   pageRef = "es_lo_que_hay"
   weight = 10
 
-[[main]]
-  name = "Voces de la noche"
-  parent = "Programas"
-  pageRef = "programa-nocturno"
-  weight = 20
-
-[[main]]
-  name = "El despertador Matinal"
-  parent = "Programas"
-  pageRef = "programa-matinal"
-  weight = 20
 
 #[[subnavigation]]
 #  name = "An interesting topic"
