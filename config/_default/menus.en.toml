@@ -11,8 +11,8 @@
 # ordered by weight from lowest to highest.
 
 [[main]]
- name = "Noticias"
- pageRef = "posts"
+ name = "Acerca de la radio"
+ pageRef = "acerca_de_la_radio"
  weight = 10
 
 [[main]]
