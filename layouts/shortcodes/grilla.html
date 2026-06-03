@@ -1,0 +1,200 @@
+<style>
+.grilla-container {
+  margin: 1.5rem 0;
+}
+.grilla-titulo {
+  font-size: 1.25rem;
+  font-weight: 700;
+  margin-bottom: 0.75rem;
+}
+.grilla-leyenda {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  margin-bottom: 1rem;
+}
+.grilla-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+  font-size: 0.75rem;
+  padding: 0.25rem 0.6rem;
+  border-radius: 4px;
+  font-weight: 500;
+}
+.grilla-badge::before {
+  content: '';
+  display: inline-block;
+  width: 10px;
+  height: 10px;
+  border-radius: 2px;
+  background: currentColor;
+  opacity: 0.5;
+}
+
+.grilla-scroll {
+  overflow-x: auto;
+  border-radius: 6px;
+  box-shadow: 0 1px 4px rgba(0,0,0,0.1);
+}
+.grilla-table {
+  border-collapse: collapse;
+  width: 100%;
+  min-width: 720px;
+  font-size: 0.78rem;
+}
+.grilla-table th,
+.grilla-table td {
+  border: 1px solid #d1d5db;
+  padding: 0.35rem 0.45rem;
+  text-align: center;
+  vertical-align: middle;
+  line-height: 1.35;
+}
+.grilla-table thead th {
+  background: #1f2937;
+  color: #f9fafb;
+  font-weight: 600;
+  font-size: 0.8rem;
+  padding: 0.5rem 0.45rem;
+  white-space: nowrap;
+}
+.grilla-hora {
+  font-weight: 700;
+  white-space: nowrap;
+  background: #f3f4f6;
+  color: #374151;
+  font-size: 0.75rem;
+  min-width: 48px;
+}
+.grilla-empty {
+  background: #fafafa;
+}
+.grilla-cell {
+  transition: filter 0.15s;
+}
+.grilla-cell:hover {
+  filter: brightness(0.93);
+}
+.grilla-cell a {
+  color: inherit;
+  text-decoration: none;
+  font-weight: 600;
+  display: block;
+}
+.grilla-cell a:hover {
+  text-decoration: underline;
+}
+
+/* Tipos */
+.grilla-radio-sanjavier { background-color: #c6efce; color: #1a4a1e; }
+.grilla-retransmitido   { background-color: #ffc7ce; color: #7a1a20; }
+.grilla-musical         { background-color: #ffeb9c; color: #5a4500; }
+
+.grilla-badge.grilla-radio-sanjavier { background-color: #c6efce; color: #1a4a1e; }
+.grilla-badge.grilla-retransmitido   { background-color: #ffc7ce; color: #7a1a20; }
+.grilla-badge.grilla-musical         { background-color: #ffeb9c; color: #5a4500; }
+
+/* Dark mode */
+html.dark .grilla-table th,
+html.dark .grilla-table td        { border-color: #374151; }
+html.dark .grilla-table thead th  { background: #111827; color: #f9fafb; }
+html.dark .grilla-hora            { background: #1f2937; color: #d1d5db; }
+html.dark .grilla-empty           { background: #111827; }
+html.dark .grilla-radio-sanjavier { background-color: #14532d; color: #bbf7d0; }
+html.dark .grilla-retransmitido   { background-color: #7f1d1d; color: #fecaca; }
+html.dark .grilla-musical         { background-color: #713f12; color: #fef08a; }
+html.dark .grilla-badge.grilla-radio-sanjavier { background-color: #14532d; color: #bbf7d0; }
+html.dark .grilla-badge.grilla-retransmitido   { background-color: #7f1d1d; color: #fecaca; }
+html.dark .grilla-badge.grilla-musical         { background-color: #713f12; color: #fef08a; }
+</style>
+
+<div class="grilla-container">
+  <h2 class="grilla-titulo">{{ .Site.Data.grilla.titulo }}</h2>
+  <div class="grilla-leyenda">
+    {{ range .Site.Data.grilla.leyenda }}
+    <span class="grilla-badge grilla-{{ .tipo | replaceRE "_" "-" }}">{{ .label }}</span>
+    {{ end }}
+  </div>
+  <div class="grilla-scroll">
+    <div id="grilla-tabla"></div>
+  </div>
+</div>
+
+<script>
+(function () {
+  const data = {{ .Site.Data.grilla | jsonify | safeJS }};
+  const horas = data.horas;
+  const dias  = data.dias;
+  const H = horas.length;
+  const D = dias.length;
+
+  // grid[h][d] = { skip: true } | { skip: false, cell: null } | { skip: false, cell: {...} }
+  const grid = Array.from({ length: H }, () =>
+    Array.from({ length: D }, () => ({ skip: false, cell: null }))
+  );
+
+  for (const prog of data.programas) {
+    const hIdx = horas.indexOf(prog.hora_inicio);
+    if (hIdx === -1) continue;
+
+    // Group consecutive days into spans
+    const sorted = [...prog.dias].sort((a, b) => a - b);
+    const groups = [];
+    let gs = sorted[0], ge = sorted[0];
+    for (let i = 1; i < sorted.length; i++) {
+      if (sorted[i] === ge + 1) { ge = sorted[i]; }
+      else { groups.push([gs, ge]); gs = ge = sorted[i]; }
+    }
+    groups.push([gs, ge]);
+
+    for (const [dStart, dEnd] of groups) {
+      const colspan = dEnd - dStart + 1;
+      const rowspan = prog.duracion;
+
+      grid[hIdx][dStart] = { skip: false, cell: { ...prog, colspan, rowspan } };
+
+      for (let h = hIdx; h < hIdx + rowspan && h < H; h++) {
+        for (let d = dStart; d <= dEnd; d++) {
+          if (h === hIdx && d === dStart) continue;
+          grid[h][d] = { skip: true };
+        }
+      }
+    }
+  }
+
+  // Render
+  let html = '<table class="grilla-table"><thead><tr><th>Hora</th>';
+  for (const dia of dias) html += `<th>${dia}</th>`;
+  html += '</tr></thead><tbody>';
+
+  for (let h = 0; h < H; h++) {
+    html += '<tr>';
+    html += `<td class="grilla-hora">${horas[h]}:00</td>`;
+
+    for (let d = 0; d < D; d++) {
+      const slot = grid[h][d];
+      if (slot.skip) continue;
+
+      if (!slot.cell) {
+        html += '<td class="grilla-empty"></td>';
+        continue;
+      }
+
+      const { nombre, tipo, link, colspan, rowspan } = slot.cell;
+      const cls = 'grilla-' + tipo.replace(/_/g, '-');
+      let attrs = `class="grilla-cell ${cls}"`;
+      if (colspan > 1) attrs += ` colspan="${colspan}"`;
+      if (rowspan > 1) attrs += ` rowspan="${rowspan}"`;
+
+      const content = link ? `<a href="${link}">${nombre}</a>` : nombre;
+      html += `<td ${attrs}>${content}</td>`;
+    }
+
+    html += '</tr>';
+  }
+
+  html += '</tbody></table>';
+  document.getElementById('grilla-tabla').innerHTML = html;
+})();
+</script>
