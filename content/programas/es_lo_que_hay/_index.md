@@ -12,13 +12,10 @@ showTaxonomies : true
 showWordCount : false
 showSummary : true
 sharingLinks : true
-cardView: true
+cardView: false
 featured: featured_programa_matinal.jpg
 featureimage: ""
+groupByYear: false
 ---
 
 Prepárate unos ricos mates que ahora a las 10hs arranca Es Lo Que Hay el clásico de la mañana en la 89.3!!!
-
-## Notas
-
-{{< list limit=5 cardView=false where="Kind" value="section" >}}
