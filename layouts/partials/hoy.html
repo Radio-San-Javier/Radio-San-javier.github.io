@@ -1,0 +1,159 @@
+<style>
+.hoy-seccion {
+  width: 100%;
+  padding: 1rem 1rem 0.5rem;
+  background: rgba(0,0,0,0.35);
+  backdrop-filter: blur(4px);
+}
+.hoy-dias {
+  display: flex;
+  gap: 0.35rem;
+  margin-bottom: 0.75rem;
+  overflow-x: auto;
+  scrollbar-width: none;
+  padding-bottom: 2px;
+}
+.hoy-dias::-webkit-scrollbar { display: none; }
+.hoy-dia-btn {
+  flex-shrink: 0;
+  padding: 0.3rem 0.75rem;
+  border: none;
+  border-radius: 20px;
+  background: rgba(255,255,255,0.15);
+  color: rgba(255,255,255,0.7);
+  font-size: 0.75rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background 0.15s, color 0.15s;
+  white-space: nowrap;
+}
+.hoy-dia-btn:hover {
+  background: rgba(255,255,255,0.25);
+  color: #fff;
+}
+.hoy-dia-btn.activo {
+  background: #fff;
+  color: #1f2937;
+}
+.hoy-dia-btn.hoy {
+  outline: 2px solid rgba(255,255,255,0.6);
+  outline-offset: -2px;
+}
+
+.hoy-tira {
+  display: flex;
+  gap: 0.5rem;
+  overflow-x: auto;
+  padding-bottom: 0.75rem;
+  scrollbar-width: none;
+}
+.hoy-tira::-webkit-scrollbar { display: none; }
+
+.hoy-prog {
+  flex-shrink: 0;
+  display: flex;
+  flex-direction: column;
+  padding: 0.45rem 0.75rem;
+  border-radius: 8px;
+  min-width: 130px;
+  max-width: 180px;
+  border: 1px solid rgba(255,255,255,0.15);
+  text-decoration: none;
+  transition: transform 0.15s, border-color 0.15s;
+}
+.hoy-prog:hover {
+  transform: translateY(-2px);
+  border-color: rgba(255,255,255,0.4);
+}
+.hoy-prog-hora {
+  font-size: 0.65rem;
+  font-weight: 700;
+  opacity: 0.75;
+  margin-bottom: 0.2rem;
+  color: #fff;
+}
+.hoy-prog-nombre {
+  font-size: 0.78rem;
+  font-weight: 600;
+  line-height: 1.3;
+  color: #fff;
+}
+
+/* Colores por tipo */
+.hoy-radio-sanjavier { background: rgba(198,239,206,0.25); }
+.hoy-retransmitido   { background: rgba(255,199,206,0.25); }
+.hoy-musical         { background: rgba(255,235,156,0.2);  }
+
+.hoy-vacio {
+  color: rgba(255,255,255,0.5);
+  font-size: 0.8rem;
+  padding: 0.5rem 0;
+  font-style: italic;
+}
+</style>
+
+<div class="hoy-seccion" id="hoy-seccion">
+  <div class="hoy-dias" id="hoy-dias"></div>
+  <div class="hoy-tira" id="hoy-tira"></div>
+</div>
+
+<script>
+(function () {
+  const data = {{ site.Data.grilla | jsonify | safeJS }};
+  const dias = data.dias;
+  const shortDias = ['Lun','Mar','Mié','Jue','Vie','Sáb','Dom'];
+  const jsDay = new Date().getDay();
+  const todayIdx = jsDay === 0 ? 6 : jsDay - 1;
+
+  let diaActivo = todayIdx;
+
+  function renderDias() {
+    const cont = document.getElementById('hoy-dias');
+    if (!cont) return;
+    let html = '';
+    for (let i = 0; i < dias.length; i++) {
+      let cls = 'hoy-dia-btn';
+      if (i === todayIdx) cls += ' hoy';
+      if (i === diaActivo) cls += ' activo';
+      html += `<button class="${cls}" data-dia="${i}">${shortDias[i]}</button>`;
+    }
+    cont.innerHTML = html;
+    cont.querySelectorAll('.hoy-dia-btn').forEach(btn => {
+      btn.addEventListener('click', () => {
+        diaActivo = parseInt(btn.dataset.dia);
+        renderDias();
+        renderTira();
+      });
+    });
+  }
+
+  function renderTira() {
+    const cont = document.getElementById('hoy-tira');
+    if (!cont) return;
+    const progs = data.programas
+      .filter(p => p.dias.includes(diaActivo))
+      .sort((a, b) => a.hora_inicio - b.hora_inicio);
+
+    if (!progs.length) {
+      cont.innerHTML = '<span class="hoy-vacio">Sin programación</span>';
+      return;
+    }
+
+    let html = '';
+    for (const p of progs) {
+      const cls = 'hoy-' + p.tipo.replace(/_/g, '-');
+      const fin = p.hora_inicio + p.duracion;
+      const tag = p.link ? 'a' : 'div';
+      const href = p.link ? `href="${p.link}"` : '';
+      html += `<${tag} ${href} class="hoy-prog ${cls}">
+        <span class="hoy-prog-hora">${p.hora_inicio}:00 – ${fin}:00</span>
+        <span class="hoy-prog-nombre">${p.nombre}</span>
+      </${tag}>`;
+    }
+    cont.innerHTML = html;
+  }
+
+  renderDias();
+  renderTira();
+})();
+</script>

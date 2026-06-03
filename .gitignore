@@ -28,3 +28,9 @@ desktop.ini
 # Otros archivos y directorios comunes que se suelen ignorar
 node_modules/
 vendor/
+
+# Archivos de trabajo en el root (capturas, csvs de programación)
+/*.csv
+/*.png
+/*.jpg
+/*.jpeg
