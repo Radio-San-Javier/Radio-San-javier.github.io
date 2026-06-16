@@ -90,10 +90,111 @@
   padding: 0.5rem 0;
   font-style: italic;
 }
+
+.hoy-dias-row {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  margin-bottom: 0.75rem;
+}
+.hoy-dias-row .hoy-dias {
+  flex: 1;
+  min-width: 0;
+  margin-bottom: 0;
+}
+
+.hoy-clima {
+  flex-shrink: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 0.2rem;
+  background: rgba(255,255,255,0.12);
+  border: 1px solid rgba(255,255,255,0.25);
+  border-radius: 10px;
+  padding: 0.4rem 0.7rem;
+  color: #fff;
+  text-decoration: none;
+  transition: background 0.15s;
+  line-height: 1;
+}
+.hoy-clima:hover {
+  background: rgba(255,255,255,0.2);
+}
+@media (max-width: 639px) {
+  .hoy-clima {
+    order: -1;
+    width: 100%;
+    margin-bottom: 0.35rem;
+  }
+}
+.hoy-clima:hover {
+  background: rgba(255,255,255,0.2);
+}
+.hoy-clima-datos {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.2rem 1.25rem;
+}
+.hoy-clima-dato {
+  display: flex;
+  align-items: center;
+  gap: 0.25rem;
+  font-size: 0.78rem;
+  font-weight: 600;
+  white-space: nowrap;
+}
+.hoy-clima-dato strong {
+  font-size: 0.85rem;
+  font-weight: 700;
+}
+.hoy-clima-fuente {
+  font-size: 0.62rem;
+  font-weight: 400;
+  opacity: 0.55;
+  letter-spacing: 0.01em;
+}
 </style>
 
+{{ $temp   := "" }}
+{{ $hum    := "" }}
+{{ $viento := "" }}
+{{ $lluvia := "" }}
+{{ $ok     := false }}
+{{ $climaRes := resources.GetRemote "https://rem.cba.gov.ar/Server/descargas/mediciones_flat.json" }}
+{{ with $climaRes }}
+  {{ $estaciones := . | transform.Unmarshal }}
+  {{ range $estaciones }}
+    {{ if eq .id "30551" }}
+      {{ $temp   = printf "%.1f°C"  (float .Temperatura) }}
+      {{ $hum    = printf "%d%%"    (int (math.Round (float .Humedad))) }}
+      {{ $viento = printf "%d km/h" (int (math.Round (mul (float (index . "Velocidad de Viento")) 3.6))) }}
+      {{ $lluvia = printf "%.1f mm" (float (index . "Registro de lluvia")) }}
+      {{ $ok     = true }}
+    {{ end }}
+  {{ end }}
+{{ end }}
+
 <div class="hoy-seccion" id="hoy-seccion">
-  <div class="hoy-dias" id="hoy-dias"></div>
+  <div class="hoy-dias-row">
+    <div class="hoy-dias" id="hoy-dias"></div>
+    {{ if $ok }}
+    <a
+      href="https://rem.cba.gov.ar/assets/Paginas_Secundarias/Pagina%20Mediciones%20Actuales/index.html?id=30551"
+      target="_blank"
+      rel="noopener noreferrer"
+      class="hoy-clima"
+      title="Datos meteorológicos de la estación San Javier · REM Córdoba">
+      <div class="hoy-clima-datos">
+        <span class="hoy-clima-dato">🌡️ <strong>{{ $temp }}</strong></span>
+        <span class="hoy-clima-dato">💧 <strong>{{ $hum }}</strong></span>
+        <span class="hoy-clima-dato">💨 <strong>{{ $viento }}</strong></span>
+        <span class="hoy-clima-dato">🌧️ <strong>{{ $lluvia }}</strong></span>
+      </div>
+      <span class="hoy-clima-fuente">Est. San Javier · REM Córdoba</span>
+    </a>
+    {{ end }}
+  </div>
   <div class="hoy-tira" id="hoy-tira"></div>
 </div>
 
