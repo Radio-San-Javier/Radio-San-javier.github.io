@@ -161,18 +161,12 @@
 {{ $viento := "" }}
 {{ $lluvia := "" }}
 {{ $ok     := false }}
-{{ $climaRes := resources.GetRemote "https://rem.cba.gov.ar/Server/descargas/mediciones_flat.json" }}
-{{ with $climaRes }}
-  {{ $estaciones := . | transform.Unmarshal }}
-  {{ range $estaciones }}
-    {{ if eq .id "30551" }}
-      {{ $temp   = printf "%.1f°C"  (float .Temperatura) }}
-      {{ $hum    = printf "%d%%"    (int (math.Round (float .Humedad))) }}
-      {{ $viento = printf "%d km/h" (int (math.Round (mul (float (index . "Velocidad de Viento")) 3.6))) }}
-      {{ $lluvia = printf "%.1f mm" (float (index . "Registro de lluvia")) }}
-      {{ $ok     = true }}
-    {{ end }}
-  {{ end }}
+{{ with site.Data.clima }}
+  {{ $temp   = printf "%.1f°C"  (float .Temperatura) }}
+  {{ $hum    = printf "%d%%"    (int (math.Round (float .Humedad))) }}
+  {{ $viento = printf "%d km/h" (int (math.Round (mul (float (index . "Velocidad de Viento")) 3.6))) }}
+  {{ $lluvia = printf "%.1f mm" (float (index . "Registro de lluvia")) }}
+  {{ $ok     = true }}
 {{ end }}
 
 <div class="hoy-seccion" id="hoy-seccion">
