@@ -1,38 +1,22 @@
 import json
-import time
-import requests
+import sys
 from datetime import datetime, timezone, timedelta
 
-URL = "https://rem.cba.gov.ar/Server/descargas/mediciones_flat.json"
 ART = timezone(timedelta(hours=-3))
-INTENTOS = 3
-TIMEOUT = 30
 
 
-def fetch():
-    url = f"{URL}?nocache={int(time.time())}"
-    print(f"[fetch] GET {url}")
-    for intento in range(1, INTENTOS + 1):
-        print(f"[fetch] intento {intento}/{INTENTOS}...")
-        try:
-            r = requests.get(url, timeout=TIMEOUT, headers={"User-Agent": "Mozilla/5.0"})
-            print(f"[fetch] HTTP {r.status_code} — {len(r.content)} bytes")
-            r.raise_for_status()
-            data = r.json()
-            print(f"[fetch] JSON parseado, {len(data)} estaciones")
-            return data
-        except Exception as e:
-            print(f"[fetch] intento {intento} fallido: {e}")
-            if intento < INTENTOS:
-                print("[fetch] esperando 5s antes de reintentar...")
-                time.sleep(5)
-
-    raise SystemExit("[fetch] no se pudo obtener datos tras varios intentos")
+def cargar(path):
+    print(f"[parse] leyendo {path}...")
+    with open(path, encoding="utf-8") as f:
+        data = json.load(f)
+    print(f"[parse] {len(data)} estaciones")
+    return data
 
 
+ruta = sys.argv[1] if len(sys.argv) > 1 else "data/clima.json"
 print(f"[inicio] {datetime.now(ART).strftime('%d/%m/%Y %H:%M')} ART")
 
-data = fetch()
+data = cargar(ruta)
 
 print("[parse] buscando estación 30551...")
 est = next((e for e in data if e["id"] == "30551"), None)
