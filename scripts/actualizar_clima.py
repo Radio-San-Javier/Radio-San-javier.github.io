@@ -1,17 +1,31 @@
 import json
-import sys
 import time
 import urllib.request
 from datetime import datetime, timezone, timedelta
 
-URL = f"https://rem.cba.gov.ar/Server/descargas/mediciones_flat.json?nocache={int(time.time())}"
+URL = "https://rem.cba.gov.ar/Server/descargas/mediciones_flat.json"
 ART = timezone(timedelta(hours=-3))
+INTENTOS = 3
+TIMEOUT = 30
 
-try:
-    with urllib.request.urlopen(URL, timeout=15) as r:
-        data = json.load(r)
-except Exception as e:
-    raise SystemExit(f"Error al obtener datos: {e}")
+
+def fetch():
+    req = urllib.request.Request(
+        f"{URL}?nocache={int(time.time())}",
+        headers={"User-Agent": "Mozilla/5.0"},
+    )
+    for intento in range(1, INTENTOS + 1):
+        try:
+            with urllib.request.urlopen(req, timeout=TIMEOUT) as r:
+                return json.load(r)
+        except Exception as e:
+            print(f"Intento {intento}/{INTENTOS} fallido: {e}")
+            if intento < INTENTOS:
+                time.sleep(5)
+    raise SystemExit("No se pudo obtener datos tras varios intentos")
+
+
+data = fetch()
 
 est = next((e for e in data if e["id"] == "30551"), None)
 if not est:
