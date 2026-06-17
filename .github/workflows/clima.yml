@@ -2,7 +2,7 @@ name: Actualizar clima
 
 on:
   schedule:
-    - cron: '*/30 * * * *'
+    - cron: '0 */2 * * *'
   workflow_dispatch:
 
 jobs:
@@ -10,6 +10,9 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
+
+      - name: Instalar dependencias
+        run: pip install requests
 
       - name: Obtener datos de la estación San Javier
         run: python3 scripts/actualizar_clima.py
