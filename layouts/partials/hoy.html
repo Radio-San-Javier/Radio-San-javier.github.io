@@ -156,17 +156,19 @@
 }
 </style>
 
-{{ $temp   := "" }}
-{{ $hum    := "" }}
-{{ $viento := "" }}
-{{ $lluvia := "" }}
-{{ $ok     := false }}
+{{ $temp       := "" }}
+{{ $hum        := "" }}
+{{ $viento     := "" }}
+{{ $lluvia     := "" }}
+{{ $actualizado := "" }}
+{{ $ok         := false }}
 {{ with site.Data.clima }}
-  {{ $temp   = printf "%.1f°C"  (float .Temperatura) }}
-  {{ $hum    = printf "%d%%"    (int (math.Round (float .Humedad))) }}
-  {{ $viento = printf "%d km/h" (int (math.Round (mul (float (index . "Velocidad de Viento")) 3.6))) }}
-  {{ $lluvia = printf "%.1f mm" (float (index . "Registro de lluvia")) }}
-  {{ $ok     = true }}
+  {{ $temp       = printf "%.1f°C"  (float .Temperatura) }}
+  {{ $hum        = printf "%d%%"    (int (math.Round (float .Humedad))) }}
+  {{ $viento     = printf "%d km/h" (int (math.Round (mul (float (index . "Velocidad de Viento")) 3.6))) }}
+  {{ $lluvia     = printf "%.1f mm" (float (index . "Registro de lluvia")) }}
+  {{ $actualizado = .actualizado }}
+  {{ $ok         = true }}
 {{ end }}
 
 <div class="hoy-seccion" id="hoy-seccion">
@@ -185,7 +187,7 @@
         <span class="hoy-clima-dato">💨 <strong>{{ $viento }}</strong></span>
         <span class="hoy-clima-dato">🌧️ <strong>{{ $lluvia }}</strong></span>
       </div>
-      <span class="hoy-clima-fuente">Est. San Javier · REM Córdoba</span>
+      <span class="hoy-clima-fuente">Est. San Javier · REM Córdoba{{ if $actualizado }} · {{ $actualizado }} hs{{ end }}</span>
     </a>
     {{ end }}
   </div>
