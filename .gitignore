@@ -34,3 +34,4 @@ vendor/
 /*.png
 /*.jpg
 /*.jpeg
+.sbx.toml
