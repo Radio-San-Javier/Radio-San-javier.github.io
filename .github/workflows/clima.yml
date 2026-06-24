@@ -11,16 +11,15 @@ jobs:
     steps:
       - uses: actions/checkout@v4
 
-      - name: Descargar datos REM
+      - name: Descargar datos Open-Meteo
         run: |
-          curl --retry 3 --retry-delay 5 --max-time 60 \
-            -A "Mozilla/5.0" \
-            "https://rem.cba.gov.ar/Server/descargas/mediciones_flat.json?nocache=$(date +%s)" \
-            -o /tmp/mediciones.json
-          echo "Descargado: $(wc -c < /tmp/mediciones.json) bytes"
+          curl --fail --retry 3 --retry-delay 5 --max-time 60 \
+            "https://api.open-meteo.com/v1/forecast?latitude=-32.02&longitude=-65.03&current=temperature_2m,relative_humidity_2m,wind_speed_10m,precipitation&wind_speed_unit=ms&precipitation_unit=mm&timezone=America%2FArgentina%2FCordoba" \
+            -o /tmp/clima-openmeteo.json
+          echo "Descargado: $(wc -c < /tmp/clima-openmeteo.json) bytes"
 
-      - name: Procesar datos de la estación San Javier
-        run: python3 scripts/actualizar_clima.py /tmp/mediciones.json
+      - name: Procesar clima de San Javier, Córdoba
+        run: python3 scripts/actualizar_clima.py /tmp/clima-openmeteo.json
 
       - name: Commit si cambió
         run: |
