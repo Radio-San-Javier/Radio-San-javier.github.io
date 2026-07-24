@@ -9,7 +9,7 @@
     "repositoryPurpose": "Public website and content hub for Radio San Javier."
   },
   "deployment": {
-    "currentBaseURL": "https://radiotest-sanjavier.netlify.app/",
+    "currentBaseURL": "https://radiosanjavier.netlify.app/",
     "possibleTargets": ["Netlify", "GitHub Pages"],
     "cms": "Decap CMS / Netlify CMS",
     "adminPath": "/admin/",
@@ -104,7 +104,8 @@
     "programPodcastRSS": "layouts/programas/es_lo_que_hay/rss.xml",
     "headExtension": "layouts/partials/extend-head.html",
     "searchIndexOverride": "layouts/_default/index.json",
-    "searchScriptOverride": "assets/js/search.js"
+    "searchScriptOverride": "assets/js/search.js",
+    "searchPartialOverride": "layouts/partials/search.html"
   },
   "features": [
     "Responsive weekly schedule grid",
