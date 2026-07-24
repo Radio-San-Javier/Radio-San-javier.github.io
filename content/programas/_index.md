@@ -11,7 +11,7 @@ showTaxonomies : false
 showWordCount : false
 showSummary : true
 sharingLinks : true
-cardView: false
+cardView: true
 groupByYear: false
 cascade:
   showEdit: false
