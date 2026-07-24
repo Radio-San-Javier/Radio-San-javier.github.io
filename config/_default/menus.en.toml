@@ -26,6 +26,13 @@
   pageRef = "es_lo_que_hay"
   weight = 10
 
+[[main]]
+  name = "El Amor Loco"
+  parent = "Programas"
+  pageRef = "el_amor_loco"
+  weight = 11
+
+
 
 #[[subnavigation]]
 #  name = "An interesting topic"
