@@ -38,62 +38,7 @@
   pageRef = "jugosas"
   weight = 12
 
-[[main]]
-  name = "Recreo"
-  parent = "Programas"
-  pageRef = "recreo"
-  weight = 13
 
-
-[[main]]
-  name = "Imaginario"
-  parent = "Programas"
-  pageRef = "imaginario"
-  weight = 14
-
-
-[[main]]
-  name = "Contámelo Todo"
-  parent = "Programas"
-  pageRef = "contamelo_todo"
-  weight = 15
-
-[[main]]
-  name = "En Espiral"
-  parent = "Programas"
-  pageRef = "en_espiral"
-  weight = 16
-
-[[main]]
-  name = "Acha y Machete"
-  parent = "Programas"
-  pageRef = "acha_y_machete"
-  weight = 17
-
-[[main]]
-  name = "Caides Del Catre"
-  parent = "Programas"
-  pageRef = "caides_del_catre"
-  weight = 18
-
-
-[[main]]
-  name = "El Horcón de mis Mayores"
-  parent = "Programas"
-  pageRef = "el_horcon_de_mis_mayores"
-  weight = 19
-
-[[main]]
-  name = "La Colectiva"
-  parent = "Programas"
-  pageRef = "la_colectiva"
-  weight = 20
-
-[[main]]
-  name = "retransmisiones"
-  parent = "Programas"
-  pageRef = "retransmisiones"
-  weight = 19
 
 #[[subnavigation]]
 #  name = "An interesting topic"

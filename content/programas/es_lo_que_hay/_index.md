@@ -1,7 +1,7 @@
 ---
 title: "Es lo que hay"
 description: "Ahora de lunes a viernes!!!"
-date: "2023-01-01"
+date: "2026-01-31"
 showDate : true
 showDateUpdated : false
 showHeadingAnchors : false

@@ -1,7 +1,7 @@
 ---
-title: "El Amor Loco"
+title: "Jugosas"
 description: "Ahora de lunes a viernes!!!"
-date: "2026-01-30"
+date: "2026-01-29"
 showDate : true
 showDateUpdated : false
 showHeadingAnchors : false
@@ -18,6 +18,7 @@ featureimage: ""
 groupByYear: false
 ---
 
-## lunes de 17 a 18hs (con especiales sorpresa de 2hs cada tanto)
-- **Gilda, Vivi y Tato**
-- Escuchá la música de El Amor Loco los jueves a las 14hs
+## lunes de 20 a 21hs
+- **Mile y Lima**
+- Escuchá la música de Jugosas los miércoles a las 14hs
+

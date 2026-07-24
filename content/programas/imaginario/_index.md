@@ -1,7 +1,7 @@
 ---
-title: "El Amor Loco"
+title: "Imaginario"
 description: "Ahora de lunes a viernes!!!"
-date: "2026-01-30"
+date: "2026-01-27"
 showDate : true
 showDateUpdated : false
 showHeadingAnchors : false
@@ -18,6 +18,8 @@ featureimage: ""
 groupByYear: false
 ---
 
-## lunes de 17 a 18hs (con especiales sorpresa de 2hs cada tanto)
-- **Gilda, Vivi y Tato**
-- Escuchá la música de El Amor Loco los jueves a las 14hs
+## jueves 19 a 21hs
+- **Nestor Sanchez**
+- Escuchá la música de Imaginario los martes a las 14hs
+
+
