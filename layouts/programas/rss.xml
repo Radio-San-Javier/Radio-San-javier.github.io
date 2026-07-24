@@ -1,0 +1,89 @@
+{{- $podcast := .Params.podcast | default dict -}}
+{{- $author := $podcast.author | default .Title -}}
+{{- $ownerName := $podcast.ownerName | default $author -}}
+{{- $ownerEmail := $podcast.ownerEmail | default site.Params.Author.email | default "radiosanjavier@gmail.com" -}}
+{{- $description := $podcast.description | default .Description | default .Summary | default site.Params.description | default .Title -}}
+{{- $explicit := $podcast.explicit | default "no" -}}
+{{- $category := $podcast.category | default "Society & Culture" -}}
+{{- $language := $podcast.language | default site.LanguageCode | default "es-AR" -}}
+{{- $channelImage := $podcast.image | default .Params.image | default .Params.featureimage | default site.Params.podcast.image | default "" -}}
+{{- $episodes := .RegularPages.ByDate.Reverse -}}
+{{- printf "<?xml version=\"1.0\" encoding=\"UTF-8\"?>" | safeHTML }}
+<rss version="2.0"
+  xmlns:atom="http://www.w3.org/2005/Atom"
+  xmlns:content="http://purl.org/rss/1.0/modules/content/"
+  xmlns:itunes="http://www.itunes.com/dtds/podcast-1.0.dtd">
+<channel>
+  <title>{{ .Title | plainify | htmlEscape }}</title>
+  <link>{{ .Permalink }}</link>
+  <description>{{ $description | plainify | htmlEscape }}</description>
+  <language>{{ $language }}</language>
+  <generator>Hugo</generator>
+  <lastBuildDate>{{ now.Format "Mon, 02 Jan 2006 15:04:05 -0700" }}</lastBuildDate>
+  <atom:link href="{{ .Permalink }}index.xml" rel="self" type="application/rss+xml" />
+
+  <itunes:type>{{ $podcast.type | default "episodic" }}</itunes:type>
+  <itunes:author>{{ $author | plainify | htmlEscape }}</itunes:author>
+  <itunes:summary>{{ $description | plainify | htmlEscape }}</itunes:summary>
+  <itunes:explicit>{{ $explicit }}</itunes:explicit>
+  <itunes:category text="{{ $category | htmlEscape }}" />
+  <itunes:owner>
+    <itunes:name>{{ $ownerName | plainify | htmlEscape }}</itunes:name>
+    <itunes:email>{{ $ownerEmail | htmlEscape }}</itunes:email>
+  </itunes:owner>
+  {{ with $channelImage }}<itunes:image href="{{ . | absURL }}" />{{ end }}
+  {{ with $channelImage }}
+  <image>
+    <url>{{ . | absURL }}</url>
+    <title>{{ $.Title | plainify | htmlEscape }}</title>
+    <link>{{ $.Permalink }}</link>
+  </image>
+  {{ end }}
+
+  {{ range $episodes }}
+    {{- $episodeDescription := .Params.rss_description | default .Description | default .Summary | default .Plain -}}
+    {{- $episodeImage := .Params.image | default .Params.featureimage | default "" -}}
+    {{- if not $episodeImage -}}
+      {{- with .Resources.GetMatch "featured.*" -}}{{- $episodeImage = .Permalink -}}{{- end -}}
+    {{- end -}}
+    {{- if not $episodeImage -}}
+      {{- with .Params.archive.image -}}{{- $episodeImage = . -}}{{- end -}}
+    {{- end -}}
+  <item>
+    <title>{{ .Title | plainify | htmlEscape }}</title>
+    <link>{{ .Permalink }}</link>
+    <guid isPermaLink="true">{{ .Permalink }}</guid>
+    <pubDate>{{ .Date.Format "Mon, 02 Jan 2006 15:04:05 -0700" }}</pubDate>
+    <description>{{ $episodeDescription | plainify | htmlEscape }}</description>
+    <content:encoded>{{ printf "<![CDATA[%s]]>" .Content | safeHTML }}</content:encoded>
+
+    <itunes:title>{{ .Title | plainify | htmlEscape }}</itunes:title>
+    <itunes:author>{{ $author | plainify | htmlEscape }}</itunes:author>
+    <itunes:explicit>{{ .Params.explicit | default $explicit }}</itunes:explicit>
+    <itunes:summary>{{ $episodeDescription | plainify | htmlEscape }}</itunes:summary>
+    {{ with .Description }}<itunes:subtitle>{{ . | plainify | htmlEscape }}</itunes:subtitle>{{ end }}
+    {{ with .Params.duration }}<itunes:duration>{{ . }}</itunes:duration>{{ end }}
+    {{ with $episodeImage }}<itunes:image href="{{ . | absURL }}" />{{ end }}
+
+    {{ $audioItems := .Params.enclosures | default .Params.audio }}
+    {{ range $audioItems }}
+      {{- $audioURL := "" -}}
+      {{- $audioType := "audio/mpeg" -}}
+      {{- $audioLength := "0" -}}
+      {{- if reflect.IsMap . -}}
+        {{- $audioURL = .url | default .src | default "" -}}
+        {{- $audioType = .type | default $audioType -}}
+        {{- $audioLength = printf "%v" (.length | default .size | default $audioLength) -}}
+      {{- else -}}
+        {{- $audioURL = printf "%v" . -}}
+        {{- $ext := lower (delimit (last 1 (split $audioURL ".")) "") -}}
+        {{- $audioType = cond (eq $ext "mp3") "audio/mpeg" (cond (eq $ext "m4a") "audio/x-m4a" (cond (eq $ext "mp4") "video/mp4" "audio/mpeg")) -}}
+      {{- end -}}
+      {{- if $audioURL }}
+    <enclosure url="{{ $audioURL | htmlEscape }}" length="{{ $audioLength }}" type="{{ $audioType }}" />
+      {{- end }}
+    {{ end }}
+  </item>
+  {{ end }}
+</channel>
+</rss>

@@ -14,6 +14,14 @@ showSummary : true
 sharingLinks : true
 cardView: false
 groupByYear: false
+podcast:
+  author: "Acha y Machete"
+  ownerName: "Radio San Javier"
+  ownerEmail: "radiosanjavier@gmail.com"
+  description: "Programas de Acha y Machete en Radio San Javier."
+  category: "Society & Culture"
+  explicit: "no"
+  image: "https://archive.org/download/acha-y-machete-104-17-7-26.mp-3_202607/BOLIVIA%20MUSICA.jpg"
 ---
 
 ## viernes 18 a 20hs
