@@ -32,6 +32,7 @@
     "cmsConfig": "static/admin/config.yml",
     "contentTutorial": "docs/tutorial-agregar-contenido.md",
     "weatherScript": "scripts/actualizar_clima.py",
+    "archiveMetadataScript": "scripts/archive_metadata.py",
     "weatherWorkflow": ".github/workflows/clima.yml"
   },
   "contentModel": {
@@ -120,7 +121,8 @@
     "Decap CMS admin UI",
     "No-code content editing tutorial with screenshot placeholders under docs/tutorial-agregar-contenido.md",
     "Reusable podcast RSS feeds for radio programs, including iTunes/Spotify/generic podcast client tags",
-    "Archive.org embedded audio player shortcode for program episodes"
+    "Archive.org embedded audio player shortcode for program episodes",
+    "Archive.org metadata helper script that prints front matter snippets including tags from Archive.org subjects"
   ],
   "externalServices": {
     "radioStream": "Configured in data/radio.json",
@@ -140,7 +142,7 @@
     },
     {
       "issue": "CMS program/episode coverage is explicit",
-      "details": "static/admin/config.yml currently exposes program pages and episode collections for selected programs. Add new episode collections when more programs need editor access."
+      "details": "static/admin/config.yml exposes program pages and one episode collection per current program. Add a new episode collection when a new program directory is added."
     },
     {
       "issue": "Generated public directory is committed",
@@ -164,8 +166,9 @@
     "Keep user-facing text in Spanish appropriate for Argentina unless the user requests otherwise.",
     "When adding content, prefer Hugo leaf bundles for posts and program episodes so images can live next to index.md.",
     "For podcast episodes, keep Params.audio as a list of URL strings because Blowfish/OpenGraph expects strings. Put rich RSS enclosure metadata in Params.enclosures.",
-    "For Archive.org episodes, use the archive-player shortcode with the Archive.org identifier and use https://archive.org/metadata/<identifier> to find exact MP3 filenames, sizes, durations, and images.",
-    "Decap CMS is configured in static/admin/config.yml with collections for news, program pages, selected program episodes, radio data, and ads.",
+    "For Archive.org episodes, use the archive-player shortcode with the Archive.org identifier and use https://archive.org/metadata/<identifier> to find exact MP3 filenames, sizes, durations, images, and subject tags.",
+    "Use scripts/archive_metadata.py <identifier-or-episode-file> to print YAML snippets for audio, enclosures, duration, image, archive fields, and tags.",
+    "Decap CMS is configured in static/admin/config.yml with collections for news, program pages, one episode collection per current program, radio data, and ads.",
     "Episode entries managed by Decap use cmsType=episode so folder collections can exclude program _index.md files.",
     "Before large refactors, explain the intended change and ask for confirmation."
   ]

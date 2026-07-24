@@ -118,10 +118,130 @@ collections:
       - {label: "Contenido", name: "body", widget: "markdown", required: false, hint: "Para mostrar reproductor de Archive.org, agregar: {{< archive-player id=\"ID_DE_ARCHIVE\" >}}"}
       - {label: "Tags", name: "tags", widget: "list", required: false}
 
+  - name: "episodios_caides_del_catre"
+    label: "Episodios - Caídes del Catre"
+    label_singular: "Episodio"
+    folder: "content/programas/caides_del_catre"
+    create: true
+    slug: "{{slug}}"
+    path: "{{slug}}/index"
+    media_folder: ""
+    public_folder: ""
+    filter: {field: "cmsType", value: "episode"}
+    fields: *episode_fields
+
+  - name: "episodios_contamelo_todo"
+    label: "Episodios - Contámelo Todo"
+    label_singular: "Episodio"
+    folder: "content/programas/contamelo_todo"
+    create: true
+    slug: "{{slug}}"
+    path: "{{slug}}/index"
+    media_folder: ""
+    public_folder: ""
+    filter: {field: "cmsType", value: "episode"}
+    fields: *episode_fields
+
+  - name: "episodios_el_amor_loco"
+    label: "Episodios - El Amor Loco"
+    label_singular: "Episodio"
+    folder: "content/programas/el_amor_loco"
+    create: true
+    slug: "{{slug}}"
+    path: "{{slug}}/index"
+    media_folder: ""
+    public_folder: ""
+    filter: {field: "cmsType", value: "episode"}
+    fields: *episode_fields
+
+  - name: "episodios_el_horcon_de_mis_mayores"
+    label: "Episodios - El Horcón de mis Mayores"
+    label_singular: "Episodio"
+    folder: "content/programas/el_horcon_de_mis_mayores"
+    create: true
+    slug: "{{slug}}"
+    path: "{{slug}}/index"
+    media_folder: ""
+    public_folder: ""
+    filter: {field: "cmsType", value: "episode"}
+    fields: *episode_fields
+
+  - name: "episodios_en_espiral"
+    label: "Episodios - En Espiral"
+    label_singular: "Episodio"
+    folder: "content/programas/en_espiral"
+    create: true
+    slug: "{{slug}}"
+    path: "{{slug}}/index"
+    media_folder: ""
+    public_folder: ""
+    filter: {field: "cmsType", value: "episode"}
+    fields: *episode_fields
+
   - name: "episodios_es_lo_que_hay"
     label: "Episodios - Es lo que hay"
     label_singular: "Episodio"
     folder: "content/programas/es_lo_que_hay"
+    create: true
+    slug: "{{slug}}"
+    path: "{{slug}}/index"
+    media_folder: ""
+    public_folder: ""
+    filter: {field: "cmsType", value: "episode"}
+    fields: *episode_fields
+
+  - name: "episodios_imaginario"
+    label: "Episodios - Imaginario"
+    label_singular: "Episodio"
+    folder: "content/programas/imaginario"
+    create: true
+    slug: "{{slug}}"
+    path: "{{slug}}/index"
+    media_folder: ""
+    public_folder: ""
+    filter: {field: "cmsType", value: "episode"}
+    fields: *episode_fields
+
+  - name: "episodios_jugosas"
+    label: "Episodios - Jugosas"
+    label_singular: "Episodio"
+    folder: "content/programas/jugosas"
+    create: true
+    slug: "{{slug}}"
+    path: "{{slug}}/index"
+    media_folder: ""
+    public_folder: ""
+    filter: {field: "cmsType", value: "episode"}
+    fields: *episode_fields
+
+  - name: "episodios_la_colectiva"
+    label: "Episodios - La Colectiva"
+    label_singular: "Episodio"
+    folder: "content/programas/la_colectiva"
+    create: true
+    slug: "{{slug}}"
+    path: "{{slug}}/index"
+    media_folder: ""
+    public_folder: ""
+    filter: {field: "cmsType", value: "episode"}
+    fields: *episode_fields
+
+  - name: "episodios_recreo"
+    label: "Episodios - Recreo"
+    label_singular: "Episodio"
+    folder: "content/programas/recreo"
+    create: true
+    slug: "{{slug}}"
+    path: "{{slug}}/index"
+    media_folder: ""
+    public_folder: ""
+    filter: {field: "cmsType", value: "episode"}
+    fields: *episode_fields
+
+  - name: "episodios_retransmisiones"
+    label: "Episodios - Retransmisiones"
+    label_singular: "Episodio"
+    folder: "content/programas/retransmisiones"
     create: true
     slug: "{{slug}}"
     path: "{{slug}}/index"

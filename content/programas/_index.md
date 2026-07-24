@@ -16,6 +16,7 @@ groupByYear: false
 cascade:
   showEdit: false
   showReadingTime: false
+  showWordCount: false
 ---
 
 

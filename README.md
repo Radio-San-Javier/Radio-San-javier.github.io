@@ -39,7 +39,7 @@ Desde ahí se pueden editar:
 
 - noticias;
 - páginas de programas;
-- episodios de programas configurados;
+- episodios de cada programa;
 - datos de radio/streaming;
 - publicidades.
 
@@ -292,6 +292,7 @@ Campos importantes:
   - `url`: URL directa al archivo de audio.
   - `type`: MIME type. Para mp3 usar `audio/mpeg`.
   - `length`: tamaño del archivo en bytes.
+- `tags`: etiquetas del episodio. Pueden copiarse desde `subject` en Archive.org.
 
 ### Importante sobre `audio` y `enclosures`
 
@@ -342,7 +343,26 @@ Ahí se pueden ver:
 - nombre exacto del `.mp3`;
 - tamaño en bytes (`size`), para `enclosures.length`;
 - duración (`length`), para calcular `duration`;
-- imágenes disponibles.
+- imágenes disponibles;
+- etiquetas/temas (`subject`), para completar `tags`.
+
+También hay un script auxiliar que trae esos datos y los imprime como YAML listo para copiar al front matter:
+
+```bash
+python3 scripts/archive_metadata.py ID_DE_ARCHIVE
+```
+
+Ejemplo:
+
+```bash
+python3 scripts/archive_metadata.py el-horcon-de-mis-mayores-junio-28-2026-para-enviar
+```
+
+También se le puede pasar el archivo del episodio si ya tiene `archive.id`:
+
+```bash
+python3 scripts/archive_metadata.py content/programas/el_horcon_de_mis_mayores/2026-16-el-horcon-de-mis-mayores/index.md
+```
 
 ### Reproductor de Archive.org
 

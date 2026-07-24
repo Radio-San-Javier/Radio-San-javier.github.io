@@ -1,5 +1,5 @@
 {{- $id := .Get "id" -}}
-{{- $height := .Get "height" | default "90" -}}
+{{- $height := .Get "height" | default "60" -}}
 {{- if not $id -}}
   {{- errorf "archive-player shortcode requires an id parameter. Example: {{< archive-player id=\"archive-item-id\" >}}" -}}
 {{- end -}}
@@ -24,8 +24,8 @@
 
 <style>
 .archive-player {
-  margin: 1.5rem 0;
-  padding: 0.75rem;
+  margin: 1rem 0;
+  padding: 0.6rem;
   border: 1px solid #e5e7eb;
   border-radius: 10px;
   background: #f9fafb;
@@ -39,7 +39,7 @@ html.dark .archive-player {
   border-radius: 6px;
 }
 .archive-player-link {
-  margin: 0.5rem 0 0;
+  margin: 0.35rem 0 0;
   font-size: 0.8rem;
 }
 </style>

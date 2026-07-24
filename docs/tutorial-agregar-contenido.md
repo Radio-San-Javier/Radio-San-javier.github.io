@@ -199,6 +199,27 @@ Ahí vas a ver una lista de archivos.
 
 Buscá el archivo que sea MP3.
 
+Si trabajás desde la compu con el repo, también podés usar el script auxiliar:
+
+```bash
+python3 scripts/archive_metadata.py ID_DE_ARCHIVE
+```
+
+Ese script imprime para copiar y pegar:
+
+- imagen;
+- duración;
+- URL directa del MP3;
+- `enclosures.length`;
+- tags tomados de `subject` en Archive.org;
+- shortcode del reproductor.
+
+Ejemplo:
+
+```bash
+python3 scripts/archive_metadata.py el-horcon-de-mis-mayores-junio-28-2026-para-enviar
+```
+
 Ejemplo:
 
 ```txt
@@ -245,7 +266,7 @@ Completá:
 
 - **URL MP3**: la misma URL directa al MP3.
 - **Tipo MIME**: para mp3 usar `audio/mpeg`.
-- **Tamaño en bytes**: el tamaño del archivo. Sale de la metadata de Archive.org, campo `size`.
+- **Tamaño en bytes**: el tamaño del archivo. Sale de la metadata de Archive.org, campo `size`. Si no lo sabés, podés dejarlo vacío; el RSS usará `0`.
 
 Ejemplo:
 
@@ -420,7 +441,7 @@ Antes de publicar, revisar:
 - [ ] El ID de Archive.org es correcto.
 - [ ] La URL directa al MP3 abre en el navegador.
 - [ ] El `enclosure` tiene tipo `audio/mpeg`.
-- [ ] El tamaño en bytes está cargado.
+- [ ] El tamaño en bytes está cargado o quedó vacío a propósito.
 - [ ] El reproductor de Archive.org aparece en el contenido.
 - [ ] El episodio no está como borrador si debe publicarse.
 

@@ -72,7 +72,8 @@ Start by reading:
 - For podcast episodes, keep `audio` as a list of URL strings. Blowfish/OpenGraph expects strings there.
 - For podcast enclosure metadata, use `enclosures` with `url`, `type`, and `length`.
 - For Archive.org episodes, use `{{< archive-player id="ARCHIVE_ID" >}}` in the episode body.
-- Use `https://archive.org/metadata/ARCHIVE_ID` to find exact MP3 filenames, file sizes, durations, and images.
+- Use `https://archive.org/metadata/ARCHIVE_ID` to find exact MP3 filenames, file sizes, durations, images, and subject tags.
+- Use `python3 scripts/archive_metadata.py ARCHIVE_ID` to print copy/paste front matter snippets from Archive.org metadata.
 - If making architectural changes, update `.agents/project-context.json` so future agents have accurate context.
 
 ## Known cleanup areas
@@ -80,5 +81,5 @@ Start by reading:
 - Both root `hugo.toml` and `config/_default/hugo.toml` exist; confirm which one deployment uses.
 - Language/menu config now uses Spanish files: `languages.es.toml` and `menus.es.toml`.
 - Some test/placeholder content exists under `content/posts/` and `content/acerca_de_la_radio.md`.
-- Decap CMS uses explicit episode collections per program. Add another collection in `static/admin/config.yml` when a new program needs editor-managed episodes.
+- Decap CMS uses explicit episode collections per program. Add another collection in `static/admin/config.yml` when a new program directory is added.
 - The no-code content editing tutorial lives at `docs/tutorial-agregar-contenido.md`; update it when CMS workflows change.

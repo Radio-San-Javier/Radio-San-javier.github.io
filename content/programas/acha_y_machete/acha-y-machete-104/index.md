@@ -19,4 +19,6 @@ enclosures:
     length: 284549818
 ---
 
+Programa emitido el 28 de junio de 2026. Folklore argentino, investigación y difusión musical.
+
 {{< archive-player id="acha-y-machete-104-17-7-26.mp-3_202607" >}}

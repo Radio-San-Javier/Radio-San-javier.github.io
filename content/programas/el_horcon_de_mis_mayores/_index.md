@@ -14,6 +14,14 @@ showSummary : true
 sharingLinks : true
 cardView: false
 groupByYear: false
+podcast:
+  author: "El Horcón de mis Mayores"
+  ownerName: "Radio San Javier"
+  ownerEmail: "radiosanjavier@gmail.com"
+  description: "El horcón de mis mayores, folklore argentino desde Traslasierra por Radio San Javier."
+  category: "Music"
+  explicit: "no"
+  image: "https://archive.org/download/el-horcon-de-mis-mayores-junio-28-2026-para-enviar/flyer%20el%20horcon%20sj%202026.jpg"
 ---
 
 ## domingos 11 a 12hs

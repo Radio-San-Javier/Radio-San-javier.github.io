@@ -17,6 +17,17 @@ enclosures:
   - url: "https://archive.org/download/el-horcon-de-mis-mayores-junio-28-2026-para-enviar/El%20horcon%20de%20mis%20mayores%20-%20junio%2028%202026%20para%20enviar.mp3"
     type: "audio/mpeg"
     length: 63276957
+tags:
+  - "Daniela De Rito"
+  - "cantante"
+  - "cantora"
+  - "Traslasierra"
+  - "San Javier"
+  - "Córdoba"
+  - "folklore"
+  - "tango"
+  - "música"
+  - "Argentina"
 ---
 
 {{< archive-player id="el-horcon-de-mis-mayores-junio-28-2026-para-enviar" >}}
