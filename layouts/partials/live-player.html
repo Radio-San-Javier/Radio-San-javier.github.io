@@ -1,0 +1,207 @@
+{{ $radio := site.Data.radio }}
+{{ $name := index $radio "name" | default "Radio San Javier" }}
+{{ $frequency := index $radio "frequency" | default "" }}
+{{ $tagline := index $radio "tagline" | default "" }}
+{{ $streamURL := index $radio "streamUrl" | default "" }}
+{{ $streamType := index $radio "streamType" | default "audio/mpeg" }}
+
+{{ if $streamURL }}
+<section class="live-player-card" aria-label="Reproductor en vivo">
+  <style>
+    .live-player-card {
+      width: min(92vw, 760px);
+      margin: 0 auto 1rem;
+      padding: 1rem;
+      border: 1px solid rgba(255,255,255,0.22);
+      border-radius: 18px;
+      background:
+        radial-gradient(circle at top left, rgba(239,68,68,0.22), transparent 32%),
+        linear-gradient(135deg, rgba(17,24,39,0.88), rgba(31,41,55,0.78));
+      color: #fff;
+      box-shadow: 0 18px 45px rgba(0,0,0,0.24);
+      backdrop-filter: blur(8px);
+    }
+    .live-player-inner {
+      display: grid;
+      grid-template-columns: 1fr auto;
+      gap: 1rem;
+      align-items: center;
+    }
+    .live-player-kicker {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.4rem;
+      margin-bottom: 0.25rem;
+      font-size: 0.72rem;
+      font-weight: 800;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: rgba(255,255,255,0.78);
+    }
+    .live-player-dot {
+      width: 0.55rem;
+      height: 0.55rem;
+      border-radius: 999px;
+      background: #ef4444;
+      box-shadow: 0 0 0 0 rgba(239,68,68,0.8);
+      animation: livePulse 1.7s infinite;
+    }
+    @keyframes livePulse {
+      0% { box-shadow: 0 0 0 0 rgba(239,68,68,0.75); }
+      70% { box-shadow: 0 0 0 9px rgba(239,68,68,0); }
+      100% { box-shadow: 0 0 0 0 rgba(239,68,68,0); }
+    }
+    .live-player-title {
+      margin: 0;
+      font-size: clamp(1.2rem, 3.8vw, 1.8rem);
+      line-height: 1.1;
+      font-weight: 900;
+      color: #fff;
+    }
+    .live-player-subtitle {
+      margin: 0.25rem 0 0;
+      font-size: 0.9rem;
+      color: rgba(255,255,255,0.76);
+    }
+    .live-player-actions {
+      display: flex;
+      align-items: center;
+      gap: 0.8rem;
+    }
+    .live-player-button {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 0.55rem;
+      min-width: 10.5rem;
+      border: 0;
+      border-radius: 999px;
+      padding: 0.78rem 1.1rem;
+      background: #fff;
+      color: #111827;
+      font-weight: 850;
+      cursor: pointer;
+      box-shadow: 0 10px 25px rgba(0,0,0,0.22);
+      transition: transform 0.15s ease, background 0.15s ease;
+    }
+    .live-player-button:hover { transform: translateY(-1px); background: #f9fafb; }
+    .live-player-button:active { transform: translateY(0); }
+    .live-player-icon { width: 1rem; height: 1rem; }
+    .live-player-status {
+      margin-top: 0.8rem;
+      font-size: 0.78rem;
+      color: rgba(255,255,255,0.72);
+    }
+    .live-player-volume {
+      width: 7rem;
+      accent-color: #ef4444;
+    }
+    .live-player-native {
+      position: absolute;
+      width: 1px;
+      height: 1px;
+      opacity: 0;
+      pointer-events: none;
+    }
+    @media (max-width: 640px) {
+      .live-player-card {
+        width: calc(100% - 1rem);
+        margin-bottom: 0.75rem;
+        padding: 0.9rem;
+        border-radius: 16px;
+      }
+      .live-player-inner {
+        grid-template-columns: 1fr;
+        gap: 0.85rem;
+      }
+      .live-player-actions {
+        width: 100%;
+      }
+      .live-player-button {
+        width: 100%;
+        min-width: 0;
+      }
+      .live-player-volume {
+        display: none;
+      }
+    }
+  </style>
+
+  <div class="live-player-inner">
+    <div>
+      <span class="live-player-kicker"><span class="live-player-dot"></span> En vivo</span>
+      <h2 class="live-player-title">{{ $name }}</h2>
+      <p class="live-player-subtitle">
+        {{ with $frequency }}{{ . }}{{ end }}{{ if and $frequency $tagline }} · {{ end }}{{ with $tagline }}{{ . }}{{ end }}
+      </p>
+      <div class="live-player-status" id="live-player-status">Listo para escuchar online</div>
+    </div>
+
+    <div class="live-player-actions">
+      <button class="live-player-button" id="live-player-toggle" type="button" aria-label="Escuchar radio en vivo">
+        <svg class="live-player-icon" id="live-player-icon-play" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true"><path d="M6.3 3.9A1 1 0 0 0 5 4.8v10.4a1 1 0 0 0 1.53.85l8.3-5.2a1 1 0 0 0 0-1.7l-8.3-5.2a1 1 0 0 0-.23-.05Z"/></svg>
+        <span id="live-player-label">Escuchar ahora</span>
+      </button>
+      <input class="live-player-volume" id="live-player-volume" type="range" min="0" max="1" step="0.01" value="0.9" aria-label="Volumen">
+    </div>
+  </div>
+
+  <audio class="live-player-native" id="live-player-audio" preload="none">
+    <source src="{{ $streamURL }}" type="{{ $streamType }}">
+  </audio>
+
+  <script>
+    (function () {
+      const audio = document.getElementById('live-player-audio');
+      const button = document.getElementById('live-player-toggle');
+      const label = document.getElementById('live-player-label');
+      const status = document.getElementById('live-player-status');
+      const volume = document.getElementById('live-player-volume');
+      const playIcon = '<path d="M6.3 3.9A1 1 0 0 0 5 4.8v10.4a1 1 0 0 0 1.53.85l8.3-5.2a1 1 0 0 0 0-1.7l-8.3-5.2a1 1 0 0 0-.23-.05Z"/>';
+      const pauseIcon = '<path d="M6 4a1 1 0 0 1 1 1v10a1 1 0 1 1-2 0V5a1 1 0 0 1 1-1Zm8 0a1 1 0 0 1 1 1v10a1 1 0 1 1-2 0V5a1 1 0 0 1 1-1Z"/>';
+      const icon = document.getElementById('live-player-icon-play');
+
+      if (!audio || !button) return;
+      audio.volume = volume ? parseFloat(volume.value) : 0.9;
+
+      function setPlaying(isPlaying) {
+        label.textContent = isPlaying ? 'Pausar' : 'Escuchar ahora';
+        button.setAttribute('aria-label', isPlaying ? 'Pausar radio en vivo' : 'Escuchar radio en vivo');
+        if (icon) icon.innerHTML = isPlaying ? pauseIcon : playIcon;
+      }
+
+      button.addEventListener('click', function () {
+        if (audio.paused) {
+          status.textContent = 'Conectando…';
+          audio.play().catch(function () {
+            status.textContent = 'No se pudo conectar. Probá de nuevo en unos segundos.';
+            setPlaying(false);
+          });
+        } else {
+          audio.pause();
+        }
+      });
+
+      audio.addEventListener('play', function () {
+        setPlaying(true);
+        status.textContent = 'Reproduciendo en vivo';
+      });
+      audio.addEventListener('pause', function () {
+        setPlaying(false);
+        status.textContent = 'Pausado';
+      });
+      audio.addEventListener('waiting', function () { status.textContent = 'Conectando…'; });
+      audio.addEventListener('playing', function () { status.textContent = 'Reproduciendo en vivo'; });
+      audio.addEventListener('error', function () {
+        status.textContent = 'No se pudo conectar al streaming.';
+        setPlaying(false);
+      });
+      if (volume) {
+        volume.addEventListener('input', function () {
+          audio.volume = parseFloat(volume.value);
+        });
+      }
+    })();
+  </script>
+</section>
+{{ end }}

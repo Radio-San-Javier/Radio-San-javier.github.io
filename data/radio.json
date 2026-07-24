@@ -1,0 +1,7 @@
+{
+  "name": "Radio San Javier",
+  "frequency": "89.3 FM",
+  "tagline": "La radio del pueblo",
+  "streamUrl": "https://streaming01.radiosenlinea.com.ar/9000/stream",
+  "streamType": "audio/mpeg"
+}
