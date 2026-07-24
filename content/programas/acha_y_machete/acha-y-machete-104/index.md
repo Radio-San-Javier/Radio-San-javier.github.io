@@ -1,4 +1,5 @@
 ---
+cmsType: "episode"
 title: "Acha y Machete #104"
 date: 2026-07-17T18:00:00-03:00
 description: "Música de Bolivia. Programa emitido el 17/7/26."

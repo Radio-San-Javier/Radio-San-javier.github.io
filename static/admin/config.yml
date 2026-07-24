@@ -2,6 +2,7 @@ backend:
   name: git-gateway
   branch: main
 
+# Para desarrollo local con Decap CMS:
 # local_backend: true
 
 media_folder: "static/images/uploads"
@@ -9,98 +10,148 @@ public_folder: "/images/uploads"
 
 collections:
   - name: "posts"
-    label: "Noticias/Blog"
+    label: "Noticias"
+    label_singular: "Noticia"
     folder: "content/posts"
     create: true
     slug: "{{slug}}"
-    path: "{{slug}}/index" # Para asegurar que se creen _index.md
+    path: "{{slug}}/index"
     media_folder: ""
     public_folder: ""
     fields:
       - {label: "Título", name: "title", widget: "string"}
       - {label: "Fecha", name: "date", widget: "datetime"}
-      - {label: "Descripción", name: "description", widget: "text"}
-      - {label: "Subir Imagen", name: "featured", widget: "image", required: false, hint: "Sube una imagen para el post (usado por el tema para 'featured')."}
-      - {label: "O URL de Imagen Externa", name: "featureimage", widget: "string", required: false, hint: "URL completa de una imagen externa (usado por el tema para 'featureimage')."}
+      - {label: "Descripción", name: "description", widget: "text", required: false}
+      - {label: "Imagen principal", name: "featured", widget: "image", required: false, hint: "Imagen local del post. Se guarda junto al index.md."}
+      - {label: "URL de imagen externa", name: "featureimage", widget: "string", required: false}
       - {label: "Contenido", name: "body", widget: "markdown"}
-      - {label: "Draft", name: "draft", widget: "boolean", default: false}
-      - {label: "Tags", name: "tags", widget: "list", required: false, hint: "Añade tags relevantes para el post."}
+      - {label: "Borrador", name: "draft", widget: "boolean", default: false}
+      - {label: "Tags", name: "tags", widget: "list", required: false}
+      - {label: "Categorías", name: "categories", widget: "list", required: false}
 
-  - name: "programas"
-    label: "Programas de Radio"
-    folder: "content/programas" # Carpeta base para todos los programas
-    create: true
-    slug: "{{slug}}" # El slug de la carpeta del programa
-    # Decap CMS creará content/programas/nombre-programa/
-
-    # Esta sección 'files' define los campos para el _index.md de CADA programa.
-    # Cuando editas un programa, estos son los campos de su página principal.
+  - name: "program_pages"
+    label: "Páginas de programas"
+    label_singular: "Programa"
     files:
-      - label: "Información General del Programa"
-        name: "programa_info"
-        file: "{{slug}}/index.md" # Apunta al _index.md dentro de la carpeta del programa
-        fields:
-          - {label: "Nombre del Programa", name: "title", widget: "string"}
-          - {label: "Descripción Corta", name: "description", widget: "text"}
-          - {label: "Imagen del Programa (Featured)", name: "featured", widget: "image", required: false, hint: "Sube o URL de la imagen principal del programa (usado por el tema para 'featured')."}
-          - {label: "URL de Imagen Principal (FeatureImage)", name: "featureimage", widget: "string", required: false, hint: "URL completa de una imagen externa para el programa (usado por el tema para 'featureimage')."}
-          - {label: "URL de Reproducción (Stream)", name: "stream_url", widget: "string", required: false, hint: "URL del stream del programa (ej. para un futuro reproductor específico)."}
-          - {label: "Horario", name: "horario", widget: "string", required: false, hint: "Ej: Lunes a Viernes 08:00 - 10:00"}
-          - {label: "Días de Emisión", name: "dias", widget: "string", required: false, hint: "Ej: Lunes, Miércoles, Viernes"}
-          - {label: "Conductores", name: "conductores", widget: "string", required: false, hint: "Nombres de los conductores del programa."}
-          - {label: "Contenido de la Página del Programa", name: "body", widget: "markdown", required: false, hint: "Información adicional, biografía, etc., para la página principal del programa."}
-          - {label: "Draft", name: "draft", widget: "boolean", default: false}
+      - label: "Acha y Machete"
+        name: "acha_y_machete"
+        file: "content/programas/acha_y_machete/_index.md"
+        fields: &program_fields
+          - {label: "Nombre", name: "title", widget: "string"}
+          - {label: "Descripción corta", name: "description", widget: "text", required: false}
+          - {label: "Fecha", name: "date", widget: "datetime", required: false}
+          - {label: "Imagen local", name: "featured", widget: "image", required: false}
+          - {label: "URL de imagen externa", name: "featureimage", widget: "string", required: false}
+          - label: "Podcast / RSS"
+            name: "podcast"
+            widget: "object"
+            required: false
+            collapsed: true
+            fields:
+              - {label: "Autor", name: "author", widget: "string", required: false}
+              - {label: "Nombre propietario", name: "ownerName", widget: "string", required: false, default: "Radio San Javier"}
+              - {label: "Email propietario", name: "ownerEmail", widget: "string", required: false, default: "radiosanjavier@gmail.com"}
+              - {label: "Descripción podcast", name: "description", widget: "text", required: false}
+              - {label: "Categoría", name: "category", widget: "string", required: false, default: "Society & Culture"}
+              - {label: "Explícito", name: "explicit", widget: "select", required: false, options: ["no", "yes", "clean"], default: "no"}
+              - {label: "Imagen podcast", name: "image", widget: "string", required: false, hint: "URL absoluta recomendada. Para Apple/Spotify conviene imagen cuadrada grande."}
+          - {label: "Mostrar fecha", name: "showDate", widget: "boolean", required: false, default: true}
+          - {label: "Vista de tarjetas", name: "cardView", widget: "boolean", required: false, default: false}
+          - {label: "Agrupar por año", name: "groupByYear", widget: "boolean", required: false, default: false}
+          - {label: "Contenido", name: "body", widget: "markdown", required: false}
+      - {label: "Caídes del Catre", name: "caides_del_catre", file: "content/programas/caides_del_catre/_index.md", fields: *program_fields}
+      - {label: "Contámelo Todo", name: "contamelo_todo", file: "content/programas/contamelo_todo/_index.md", fields: *program_fields}
+      - {label: "El Amor Loco", name: "el_amor_loco", file: "content/programas/el_amor_loco/_index.md", fields: *program_fields}
+      - {label: "El Horcón de mis Mayores", name: "el_horcon_de_mis_mayores", file: "content/programas/el_horcon_de_mis_mayores/_index.md", fields: *program_fields}
+      - {label: "En Espiral", name: "en_espiral", file: "content/programas/en_espiral/_index.md", fields: *program_fields}
+      - {label: "Es lo que hay", name: "es_lo_que_hay", file: "content/programas/es_lo_que_hay/_index.md", fields: *program_fields}
+      - {label: "Imaginario", name: "imaginario", file: "content/programas/imaginario/_index.md", fields: *program_fields}
+      - {label: "Jugosas", name: "jugosas", file: "content/programas/jugosas/_index.md", fields: *program_fields}
+      - {label: "La Colectiva", name: "la_colectiva", file: "content/programas/la_colectiva/_index.md", fields: *program_fields}
+      - {label: "Recreo", name: "recreo", file: "content/programas/recreo/_index.md", fields: *program_fields}
+      - {label: "Retransmisiones", name: "retransmisiones", file: "content/programas/retransmisiones/_index.md", fields: *program_fields}
 
-  - name: "Es lo que hay"
-    label: "Es lo que hay"
+  - name: "episodios_acha_y_machete"
+    label: "Episodios - Acha y Machete"
+    label_singular: "Episodio"
+    folder: "content/programas/acha_y_machete"
+    create: true
+    slug: "{{slug}}"
+    path: "{{slug}}/index"
+    media_folder: ""
+    public_folder: ""
+    filter: {field: "cmsType", value: "episode"}
+    fields: &episode_fields
+      - {label: "Tipo CMS", name: "cmsType", widget: "hidden", default: "episode"}
+      - {label: "Título", name: "title", widget: "string"}
+      - {label: "Fecha", name: "date", widget: "datetime"}
+      - {label: "Descripción", name: "description", widget: "text", required: false}
+      - {label: "Descripción para RSS", name: "rss_description", widget: "text", required: false}
+      - {label: "Borrador", name: "draft", widget: "boolean", default: false}
+      - {label: "Duración", name: "duration", widget: "string", required: false, hint: "Formato recomendado: HH:MM:SS o MM:SS."}
+      - {label: "Imagen local", name: "featured", widget: "image", required: false}
+      - {label: "Imagen externa", name: "image", widget: "string", required: false, hint: "URL absoluta de imagen para podcast/OpenGraph."}
+      - label: "Archive.org"
+        name: "archive"
+        widget: "object"
+        required: false
+        collapsed: false
+        fields:
+          - {label: "ID de Archive.org", name: "id", widget: "string", required: false, hint: "Ej: acha-y-machete-104-17-7-26.mp-3_202607"}
+          - {label: "URL de Archive.org", name: "url", widget: "string", required: false}
+          - {label: "Imagen de Archive.org", name: "image", widget: "string", required: false}
+      - label: "Audio"
+        name: "audio"
+        widget: "list"
+        required: false
+        hint: "Lista simple de URLs directas a MP3. Importante: deben ser strings, no objetos."
+        field: {label: "URL MP3", name: "url", widget: "string"}
+      - label: "Enclosures RSS"
+        name: "enclosures"
+        widget: "list"
+        required: false
+        hint: "Metadata para podcast RSS. Los datos pueden salir de https://archive.org/metadata/ID."
+        fields:
+          - {label: "URL MP3", name: "url", widget: "string"}
+          - {label: "Tipo MIME", name: "type", widget: "string", default: "audio/mpeg"}
+          - {label: "Tamaño en bytes", name: "length", widget: "number", value_type: "int", required: false}
+      - {label: "Contenido", name: "body", widget: "markdown", required: false, hint: "Para mostrar reproductor de Archive.org, agregar: {{< archive-player id=\"ID_DE_ARCHIVE\" >}}"}
+      - {label: "Tags", name: "tags", widget: "list", required: false}
+
+  - name: "episodios_es_lo_que_hay"
+    label: "Episodios - Es lo que hay"
+    label_singular: "Episodio"
     folder: "content/programas/es_lo_que_hay"
     create: true
     slug: "{{slug}}"
-    path: "{{slug}}/index" # Para asegurar que se creen _index.md
+    path: "{{slug}}/index"
     media_folder: ""
     public_folder: ""
-    fields:
-      - {label: "Título", name: "title", widget: "string"}
-      - {label: "Fecha", name: "date", widget: "datetime"}
-      - {label: "Descripción", name: "description", widget: "text"}
-      - {label: "Subir Imagen", name: "featured", widget: "image", required: false, hint: "Sube una imagen para el post (usado por el tema para 'featured')."}
-      - {label: "O URL de Imagen Externa", name: "featureimage", widget: "string", required: false, hint: "URL completa de una imagen externa (usado por el tema para 'featureimage')."}
-      - {label: "Contenido", name: "body", widget: "markdown"}
-      - {label: "Draft", name: "draft", widget: "boolean", default: false}
-      - {label: "Tags", name: "tags", widget: "list", required: false, hint: "Añade tags relevantes para el post."}
+    filter: {field: "cmsType", value: "episode"}
+    fields: *episode_fields
 
-  - name: "El Despertador Matinal"
-    label: "El Despertador Matinal"
-    folder: "content/programas/programa-matinal"
-    create: true
-    slug: "{{slug}}"
-    path: "{{slug}}/index" # Para asegurar que se creen _index.md
-    media_folder: ""
-    public_folder: ""
-    fields:
-      - {label: "Título", name: "title", widget: "string"}
-      - {label: "Fecha", name: "date", widget: "datetime"}
-      - {label: "Descripción", name: "description", widget: "text"}
-      - {label: "Subir Imagen", name: "featured", widget: "image", required: false, hint: "Sube una imagen para el post (usado por el tema para 'featured')."}
-      - {label: "O URL de Imagen Externa", name: "featureimage", widget: "string", required: false, hint: "URL completa de una imagen externa (usado por el tema para 'featureimage')."}
-      - {label: "Contenido", name: "body", widget: "markdown"}
-      - {label: "Draft", name: "draft", widget: "boolean", default: false}
-      - {label: "Tags", name: "tags", widget: "list", required: false, hint: "Añade tags relevantes para el post."}
-
-  - name: "Voces de la Noche"
-    label: "Voces de la Noche"
-    folder: "content/programas/programa-nocturno"
-    create: true
-    slug: "{{slug}}"
-    path: "{{slug}}/index" # Para asegurar que se creen _index.md
-    media_folder: ""
-    public_folder: ""
-    fields:
-      - {label: "Título", name: "title", widget: "string"}
-      - {label: "Fecha", name: "date", widget: "datetime"}
-      - {label: "Descripción", name: "description", widget: "text"}
-      - {label: "Subir Imagen", name: "featured", widget: "image", required: false, hint: "Sube una imagen para el post (usado por el tema para 'featured')."}
-      - {label: "O URL de Imagen Externa", name: "featureimage", widget: "string", required: false, hint: "URL completa de una imagen externa (usado por el tema para 'featureimage')."}
-      - {label: "Contenido", name: "body", widget: "markdown"}
-      - {label: "Draft", name: "draft", widget: "boolean", default: false}
-      - {label: "Tags", name: "tags", widget: "list", required: false, hint: "Añade tags relevantes para el post."}
+  - name: "datos"
+    label: "Datos del sitio"
+    files:
+      - label: "Radio / Streaming"
+        name: "radio"
+        file: "data/radio.json"
+        fields:
+          - {label: "Nombre", name: "name", widget: "string"}
+          - {label: "Frecuencia", name: "frequency", widget: "string", required: false}
+          - {label: "Bajada", name: "tagline", widget: "string", required: false}
+          - {label: "URL del streaming", name: "streamUrl", widget: "string"}
+          - {label: "Tipo de stream", name: "streamType", widget: "string", default: "audio/mpeg"}
+      - label: "Publicidades"
+        name: "publicidades"
+        file: "data/publicidades.json"
+        fields:
+          - label: "Anunciantes"
+            name: "anunciantes"
+            widget: "list"
+            fields:
+              - {label: "Nombre", name: "nombre", widget: "string"}
+              - {label: "Imagen", name: "imagen", widget: "string", hint: "Ej: /publicidades/archivo.svg"}
+              - {label: "Link", name: "link", widget: "string", required: false, default: "#"}
+              - {label: "Activo", name: "activo", widget: "boolean", default: true}
+              - {label: "Ubicaciones", name: "ubicaciones", widget: "list", hint: "Ej: home, es_lo_que_hay"}

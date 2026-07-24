@@ -2,6 +2,16 @@
 
 Sitio web de Radio San Javier, hecho con [Hugo](https://gohugo.io/) y el tema Blowfish.
 
+## Tutorial para agregar contenido
+
+Hay una guía paso a paso para editar contenido desde el editor web:
+
+```txt
+docs/tutorial-agregar-contenido.md
+```
+
+Incluye placeholders para agregar capturas de pantalla en `docs/images/`.
+
 ## Desarrollo local
 
 ```bash
@@ -9,6 +19,37 @@ hugo server -D
 ```
 
 Luego abrir la URL local que indique Hugo.
+
+## Editor simple de contenido
+
+El sitio usa Decap CMS para edición simple desde el navegador.
+
+Archivos:
+
+- `static/admin/index.html`
+- `static/admin/config.yml`
+
+Ruta pública:
+
+```txt
+/admin/
+```
+
+Desde ahí se pueden editar:
+
+- noticias;
+- páginas de programas;
+- episodios de programas configurados;
+- datos de radio/streaming;
+- publicidades.
+
+Los episodios creados desde el CMS usan:
+
+```yaml
+cmsType: "episode"
+```
+
+Ese campo permite que Decap muestre episodios sin confundirlos con los `_index.md` de los programas.
 
 ## Reglas generales
 

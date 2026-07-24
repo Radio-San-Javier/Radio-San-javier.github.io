@@ -1,4 +1,5 @@
 ---
+cmsType: "episode"
 title: "Entrevista con el intendente"
 date: 2026-06-02T10:00:00-03:00
 description: "Hablamos con el intendente sobre las obras del pueblo y los proyectos para el segundo semestre."

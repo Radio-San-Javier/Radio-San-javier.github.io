@@ -5,11 +5,12 @@ This repository contains the Hugo website for **Radio San Javier**, a local/comm
 Start by reading:
 
 1. `.agents/project-context.json`
-2. `config/_default/hugo.toml`
-3. `config/_default/params.toml`
-4. `data/grilla.json`
-5. `layouts/partials/home/background.html`
-6. `layouts/partials/hoy.html`
+2. `docs/tutorial-agregar-contenido.md`
+3. `config/_default/hugo.toml`
+4. `config/_default/params.toml`
+5. `data/grilla.json`
+6. `layouts/partials/home/background.html`
+7. `layouts/partials/hoy.html`
 
 ## Project summary
 
@@ -79,4 +80,5 @@ Start by reading:
 - Both root `hugo.toml` and `config/_default/hugo.toml` exist; confirm which one deployment uses.
 - Language/menu config now uses Spanish files: `languages.es.toml` and `menus.es.toml`.
 - Some test/placeholder content exists under `content/posts/` and `content/acerca_de_la_radio.md`.
-- The Decap CMS program collection in `static/admin/config.yml` should be reviewed before relying on it for program creation.
+- Decap CMS uses explicit episode collections per program. Add another collection in `static/admin/config.yml` when a new program needs editor-managed episodes.
+- The no-code content editing tutorial lives at `docs/tutorial-agregar-contenido.md`; update it when CMS workflows change.
