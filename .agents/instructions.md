@@ -68,7 +68,7 @@ Start by reading:
 
 ## Known cleanup areas
 
-- Root `hugo.toml` contains generic Hugo values; confirm whether deployment uses it or `config/_default/hugo.toml`.
-- Language config currently uses English naming/codes even though the website is Spanish.
+- Both root `hugo.toml` and `config/_default/hugo.toml` exist; confirm which one deployment uses.
+- Language/menu config now uses Spanish files: `languages.es.toml` and `menus.es.toml`.
 - Some test/placeholder content exists under `content/posts/` and `content/acerca_de_la_radio.md`.
 - The Decap CMS program collection in `static/admin/config.yml` should be reviewed before relying on it for program creation.

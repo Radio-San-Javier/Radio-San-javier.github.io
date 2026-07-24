@@ -6,6 +6,6 @@ cascade:
   showReadingTime: false
 ---
 
-## Conoce a Nuestros Programas Destacados
+
 
 {{< list limit=10 cardView=true where="Kind" value="section" >}}

@@ -1,0 +1,38 @@
+{{- $index := slice -}}
+{{- $pages := .Site.Pages -}}
+{{- range .Site.Home.Translations -}}
+  {{- $pages = $pages | lang.Merge .Site.Pages -}}
+{{- end -}}
+{{- range $pages -}}
+  {{- $include := false -}}
+  {{- if and (not (.Params.searchHidden | default false)) (not .IsHome) (not (in (slice "taxonomy" "term") .Kind)) -}}
+    {{- if eq .Kind "page" -}}
+      {{- $include = true -}}
+    {{- else if and (eq .Kind "section") (eq .Section "programas") (ne .RelPermalink "/programas/") -}}
+      {{- $include = true -}}
+    {{- end -}}
+  {{- end -}}
+  {{- if $include -}}
+    {{- $sectionTitle := .Section | humanize -}}
+    {{- with (.Site.GetPage "section" .Section) -}}
+      {{- $sectionTitle = .Title -}}
+    {{- end -}}
+    {{- if not $sectionTitle -}}
+      {{- $sectionTitle = .Site.Title -}}
+    {{- end -}}
+    {{- $entry := dict
+      "title" (.Title | emojify | plainify)
+      "section" ($sectionTitle | emojify | plainify)
+      "summary" ((.Summary | plainify) | default (.Description | plainify))
+      "content" (.Plain | plainify)
+      "permalink" .RelPermalink
+      "externalUrl" .Params.externalUrl
+      "type" .Type
+    -}}
+    {{- with .Date -}}
+      {{- $entry = merge $entry (dict "date" (. | time.Format ($.Site.Language.Params.dateFormat | default ":date_long"))) -}}
+    {{- end -}}
+    {{- $index = $index | append $entry -}}
+  {{- end -}}
+{{- end -}}
+{{- $index | jsonify -}}

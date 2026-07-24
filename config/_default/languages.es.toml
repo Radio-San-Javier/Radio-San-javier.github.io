@@ -1,14 +1,14 @@
 disabled = false
-languageCode = "en"
-languageName = "English"
+languageCode = "es-AR"
+languageName = "Español"
 weight = 1
 title = "Radio San Javier"
 
 [params]
-  displayName = "EN"
-  isoCode = "en"
+  displayName = "ES"
+  isoCode = "es-AR"
   rtl = false
-  dateFormat = "2 January 2006"
+  dateFormat = "2/1/2006"
   # logo = "img/logo.png"
   # secondaryLogo = "img/secondary-logo.png"
   # description = "My awesome website"
@@ -16,11 +16,11 @@ title = "Radio San Javier"
 
 [params.author]
   name = "Radio San Javier"
-  email = "youremail@example.com"
+  email = "radiosanjavier@gmail.com"
   image = "img/radio_logo_cropped.jpg"
   imageQuality = 96
   headline = "La radio del pueblo"
-  bio = "Bio"
+  bio = "Radio San Javier"
   links = [
     { email = "mailto:hello@your_domain.com" },
     { link = "https://link-to-some-website.com/" },
