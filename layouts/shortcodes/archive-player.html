@@ -1,0 +1,45 @@
+{{- $id := .Get "id" -}}
+{{- $height := .Get "height" | default "90" -}}
+{{- if not $id -}}
+  {{- errorf "archive-player shortcode requires an id parameter. Example: {{< archive-player id=\"archive-item-id\" >}}" -}}
+{{- end -}}
+
+<div class="archive-player">
+  <iframe
+    src="https://archive.org/embed/{{ $id | urlquery }}"
+    width="100%"
+    height="{{ $height }}"
+    frameborder="0"
+    webkitallowfullscreen="true"
+    mozallowfullscreen="true"
+    allowfullscreen
+    loading="lazy"
+    title="Reproductor de Archive.org"></iframe>
+  <p class="archive-player-link">
+    <a href="https://archive.org/details/{{ $id | urlquery }}" target="_blank" rel="noopener noreferrer">
+      Ver en Archive.org
+    </a>
+  </p>
+</div>
+
+<style>
+.archive-player {
+  margin: 1.5rem 0;
+  padding: 0.75rem;
+  border: 1px solid #e5e7eb;
+  border-radius: 10px;
+  background: #f9fafb;
+}
+html.dark .archive-player {
+  border-color: #374151;
+  background: #1f2937;
+}
+.archive-player iframe {
+  display: block;
+  border-radius: 6px;
+}
+.archive-player-link {
+  margin: 0.5rem 0 0;
+  font-size: 0.8rem;
+}
+</style>
