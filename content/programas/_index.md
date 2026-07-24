@@ -20,4 +20,4 @@ cascade:
 
 
 
-{{< list limit=10 cardView=true where="Kind" value="section" >}}
+{{< list title="Todo el contenido de Radio San Javier" limit=10 cardView=true where="Kind" value="section" >}}
