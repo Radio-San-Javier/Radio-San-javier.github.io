@@ -90,10 +90,10 @@
   weight = 20
 
 [[main]]
-  name = "retransmisiones"
+  name = "Retransmisiones"
   parent = "Programas"
   pageRef = "retransmisiones"
-  weight = 19
+  weight = 21
 
 #[[subnavigation]]
 #  name = "An interesting topic"
