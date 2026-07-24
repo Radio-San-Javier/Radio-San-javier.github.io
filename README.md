@@ -154,6 +154,30 @@ Campos:
 - `activo`: `true` para mostrar, `false` para ocultar sin borrar.
 - `ubicaciones`: lugares donde se muestra la publicidad.
 
+#### Imágenes de publicidades
+
+Las imágenes deberían guardarse en:
+
+```txt
+static/publicidades/
+```
+
+Y en `data/publicidades.json` se referencian sin `static`, así:
+
+```json
+{
+  "imagen": "/publicidades/nombre-del-archivo.svg"
+}
+```
+
+También pueden usarse `.png`, `.jpg` o `.webp`, por ejemplo:
+
+```json
+{
+  "imagen": "/publicidades/almacen-don-pepe.png"
+}
+```
+
 Ubicaciones usadas actualmente:
 
 - `home`: publicidades en la home.

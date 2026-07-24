@@ -354,6 +354,26 @@ Campos:
 - activo;
 - ubicaciones.
 
+Las imágenes de publicidades deberían subirse/guardarse en:
+
+```txt
+static/publicidades/
+```
+
+En el editor o en `data/publicidades.json`, la ruta se escribe sin `static`:
+
+```txt
+/publicidades/nombre-del-archivo.svg
+```
+
+Ejemplos válidos:
+
+```txt
+/publicidades/almacen-don-pepe.svg
+/publicidades/almacen-don-pepe.png
+/publicidades/farmacia-central.webp
+```
+
 ![Placeholder: datos de publicidades](./images/16-publicidades.png)
 
 ---
